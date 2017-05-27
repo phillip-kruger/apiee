@@ -1,2 +1,2 @@
 # restee
-Library to generate swagger in Java EE projects
+A library to generate openAPI (swagger) documentation in Java EE projects
