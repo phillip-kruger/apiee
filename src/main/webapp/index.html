@@ -33,72 +33,92 @@
   
   <script type="text/javascript">
     $(function () {
-      var url = window.location.search.match(/url=([^&]+)/);
-      var jsonUrl = getUrl(url);
-      var yamlUrl = jsonUrl.replace(".json",".yaml");
-      var restLibUrl = window.location.pathname + "?url=api/rest-lib/swagger.json";
+        var contextRoot = getContextRoot();
+        log("contextRoot = " + contextRoot);
+        var url = window.location.search.match(/url=([^&]+)/);
+        log("Url = " + url);
+        var jsonUrl = getUrl(url);
+        log("jsonUrl = " + jsonUrl);
+        var yamlUrl = jsonUrl.replace(".json",".yaml");
+        log("yamlUrl = " + yamlUrl);
+        var apieeUrl = window.location.pathname + "?url=api/apiee/swagger.json";
+        log("apieeUrl = " + apieeUrl);
       
-      $("#aJson").attr('href', jsonUrl);
-      $("#aYaml").attr('href', yamlUrl);
-      $("#aRestlib").attr('href', restLibUrl);
-      $("#logo").attr('href', window.location.pathname);
+        $("#aJson").attr('href', jsonUrl);
+        $("#aYaml").attr('href', yamlUrl);
+        $("#aApiee").attr('href', apieeUrl);
+        $("#logo").attr('href', window.location.pathname);
       
-      hljs.configure({
-        highlightSizeThreshold: 5000
-      });
+        hljs.configure({
+            highlightSizeThreshold: 5000
+        });
 
-      // Pre load translate...
-      if(window.SwaggerTranslator) {
-        window.SwaggerTranslator.translate();
-      }
-      window.swaggerUi = new SwaggerUi({
-        url: jsonUrl,
-        dom_id: "swagger-ui-container",
-        supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
-        onComplete: function(swaggerApi, swaggerUi){
-          if(typeof initOAuth == "function") {
-            initOAuth({
-              clientId: "your-client-id",
-              clientSecret: "your-client-secret-if-required",
-              realm: "your-realms",
-              appName: "your-app-name",
-              scopeSeparator: " ",
-              additionalQueryStringParams: {}
-            });
-          }
-
-          if(window.SwaggerTranslator) {
+        // Pre load translate...
+        if(window.SwaggerTranslator) {
             window.SwaggerTranslator.translate();
-          }
-        },
-        onFailure: function(data) {
-          log("Unable to Load SwaggerUI");
-        },
-        docExpansion: "none",
-        jsonEditor: true,
-        defaultModelRendering: 'schema',
-        showRequestHeaders: true,
-        showOperationIds: false,
-        validatorUrl: null
-      });
-
-      window.swaggerUi.load();
-
-      function log() {
-        if ('console' in window) {
-          console.log.apply(console, arguments);
         }
-      }
-      
-      function getUrl(url){
-        if (url && url.length > 1) {
-            return decodeURIComponent(url[1]);
-        } else {
-            return "api/swagger.json";
+        window.swaggerUi = new SwaggerUi({
+            url: jsonUrl,
+            dom_id: "swagger-ui-container",
+            supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
+            onComplete: function(swaggerApi, swaggerUi){
+                if(typeof initOAuth == "function") {
+                    initOAuth({
+                        clientId: "your-client-id",
+                        clientSecret: "your-client-secret-if-required",
+                        realm: "your-realms",
+                        appName: "your-app-name",
+                        scopeSeparator: " ",
+                        additionalQueryStringParams: {}
+                    });
+                }
+
+                if(window.SwaggerTranslator) {
+                    window.SwaggerTranslator.translate();
+                }
+            },
+            onFailure: function(data) {
+                log("Unable to Load SwaggerUI");
+            },
+            docExpansion: "none",
+            jsonEditor: true,
+            defaultModelRendering: 'schema',
+            showRequestHeaders: true,
+            showOperationIds: false,
+            validatorUrl: null
+        });
+
+        window.swaggerUi.load();
+
+        function log() {
+            if ('console' in window) {
+                console.log.apply(console, arguments);
+            }
         }
-      }
       
-  });
+        function getUrl(url){
+            if (url && url.length > 1) {
+                return decodeURIComponent(url[1]);
+            } else {
+                return "api/swagger.json";
+            }
+        }
+      
+        function getContextRoot() {
+            var base = document.getElementsByTagName('base')[0];
+            if (base && base.href && (base.href.length > 0)) {
+                base = base.href;
+            } else {
+                base = document.URL;
+            }
+    
+            var u = base.substr(0,base.indexOf("/", base.indexOf("/", base.indexOf("//") + 2) + 1));
+            var u = u.substr(u.indexOf("//")+2);
+            var contextRoot = u.substr(u.indexOf("/")+1);
+        
+            return contextRoot;
+        }
+    });
   </script>
   <style>
     body { 
@@ -144,12 +164,12 @@
 <body class="swagger-section">
 <div id='header'>
   <div class="swagger-ui-wrap">
-    <a id="logo" href="#"><img class="logo__img" alt="swagger" height="30" width="30" src="logo_small.png" /><span class="logo__title">Apiee - Open API documentation for Java EE</span></a>
-    <form id='api_selector'>
-        <div class='input'><a target="_blank" id="aJson" class="header__btn btnHeader" href="" data-sw-translate><i class="fa fa-download" aria-hidden="true"></i> json</a></div>
-        <div class='input'><a target="_blank" id="aYaml" class="header__btn btnHeader" href="" data-sw-translate><i class="fa fa-download" aria-hidden="true"></i> yaml</a></div>
-        <div class='input'><a id="aRestlib" class="header__btn btnHeader" href="" data-sw-translate><i class="fa fa-external-link" aria-hidden="true"></i> rest-lib</a></div>
-    </form>
+        <a id="logo" href="#"><img class="logo__img" alt="swagger" height="30" width="30" src="logo_small.png" /><span class="logo__title">Apiee - Open API documentation for Java EE</span></a>
+        <form id='api_selector'>
+            <div class='input'><a target="_blank" id="aJson" class="header__btn btnHeader" href="" data-sw-translate><i class="fa fa-download" aria-hidden="true"></i> json</a></div>
+            <div class='input'><a target="_blank" id="aYaml" class="header__btn btnHeader" href="" data-sw-translate><i class="fa fa-download" aria-hidden="true"></i> yaml</a></div>
+            <div class='input'><a id="aApiee" class="header__btn btnHeader" href="" data-sw-translate><i class="fa fa-external-link" aria-hidden="true"></i> apiee</a></div>
+        </form>
   </div>
 </div>
 

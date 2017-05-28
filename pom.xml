@@ -8,6 +8,7 @@
     <packaging>jar</packaging>
     
     <name>apiee</name>
+    <url>https://github.com/phillip-kruger/apiee</url>
     <description>A library to generate openAPI (swagger) documentation in Java EE projects</description>
     
     <scm>
@@ -41,7 +42,7 @@
         
         <lombok.version>1.16.16</lombok.version>
         
-        <swagger.ui.version>3.0.10</swagger.ui.version>
+        <swagger.ui.version>2.2.10</swagger.ui.version>
         <swagger.ui.themes.version>2.1.0</swagger.ui.themes.version>
         <font.awesome.version>4.7.0</font.awesome.version>
         <swagger.annotations.version>1.5.13</swagger.annotations.version>
@@ -121,8 +122,8 @@
                 <targetPath>${project.build.directory}/classes/META-INF/resources</targetPath>
                 <filtering>true</filtering>
                 <includes>
-                    <include>**/*.css</include>
-                    <include>**/*.html</include>
+                    <include>*.css</include>
+                    <include>*.html</include>
                 </includes>
             </resource>
             <resource>
@@ -130,8 +131,8 @@
                 <targetPath>${project.build.directory}/classes/META-INF/resources</targetPath>
                 <filtering>false</filtering>
                 <excludes>
-                    <exclude>**/*.css</exclude>
-                    <exclude>**/*.html</exclude>
+                    <exclude>*.css</exclude>
+                    <exclude>*.html</exclude>
                 </excludes>
             </resource>
         </resources>

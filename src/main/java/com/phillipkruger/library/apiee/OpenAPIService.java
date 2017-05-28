@@ -30,10 +30,10 @@ import lombok.extern.java.Log;
  */
 @Log
 @Path("/")
-@Api(value = "Swagger document")
+@Api(value = "Open API Service")
 @SwaggerDefinition (info = @Info (
-                        title = "Rest lib",
-                        description = "Some shared services to assist with JAX-RS and Swagger",
+                        title = "Apiee",
+                        description = "OpenAPI for Java EE",
                         version = "1.0-SNAPSHOT",
                         contact = @Contact (
                             name = "Phillip Kruger", 
@@ -42,7 +42,7 @@ import lombok.extern.java.Log;
                         )
                     )
                 )
-public class SwaggerService {  
+public class OpenAPIService {  
     
     @Context
     private Application application;
@@ -54,7 +54,8 @@ public class SwaggerService {
     @ApiOperation ("Creating apiee swagger.json file")
     @Produces(MediaType.APPLICATION_JSON)
     @Path("apiee/swagger.json")
-    public String getApieeSwaggerJson(@Context HttpServletRequest request) {  
+    public String getApieeSwaggerJson(@Context HttpServletRequest request) {
+        log.info("apiee/swagger.json");
         URL url = getOriginalRequestURL(request);
         if(url!=null){
             return swaggerCache.getSwaggerJson(getApieeClasses(),url);
@@ -67,6 +68,7 @@ public class SwaggerService {
     @Produces(MediaType.TEXT_PLAIN)
     @Path("apiee/swagger.yaml")
     public String getApieeSwaggerYaml(@Context HttpServletRequest request) {  
+        log.info("apiee/swagger.yaml");
         URL url = getOriginalRequestURL(request);
         if(url!=null){
             return swaggerCache.getSwaggerYaml(getApieeClasses(), url);
@@ -79,9 +81,12 @@ public class SwaggerService {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("swagger.json")
     public String getSwaggerJson(@Context HttpServletRequest request) {  
+        log.info("swagger.json");
         URL url = getOriginalRequestURL(request);
+        log.severe("url = " + url);
         if(url!=null){
             String json = swaggerCache.getSwaggerJson(getClasses(),url);
+            log.severe("json = " + json);
             return json;
         }
         return null;
@@ -92,7 +97,7 @@ public class SwaggerService {
     @Produces(MediaType.TEXT_PLAIN)
     @Path("swagger.yaml")
     public String getSwaggerYaml(@Context HttpServletRequest request) {  
-        
+        log.info("swagger.yaml");
         URL url = getOriginalRequestURL(request);
         if(url!=null){
             return swaggerCache.getSwaggerYaml(getClasses(), url);
@@ -103,7 +108,7 @@ public class SwaggerService {
     private Set<Class<?>> getClasses() {
         Set<Class<?>> apieeClasses = getApieeClasses();
         Set<Class<?>> appClasses = new HashSet<>();
-        // Remove all rest-lib classes from this swagger doc
+        // Remove all apiee classes from this swagger doc
         application.getClasses().stream().filter((c) -> (!apieeClasses.contains(c))).forEachOrdered((c) -> {
             appClasses.add(c);
         });
@@ -114,11 +119,8 @@ public class SwaggerService {
     private Set<Class<?>> getApieeClasses(){        
         Set<Class<?>> apieeClasses = new HashSet<>();
         apieeClasses.add(ApplicationConfig.class);
-        apieeClasses.add(PingRestService.class);
-        apieeClasses.add(SystemPropertiesService.class);
-        apieeClasses.add(RequestInfoService.class);
-        apieeClasses.add(SwaggerService.class);
-        apieeClasses.add(DiagnoseRestService.class);
+        apieeClasses.add(PingService.class);
+        apieeClasses.add(OpenAPIService.class);
         return apieeClasses;
     }
     

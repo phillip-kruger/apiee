@@ -15,7 +15,7 @@ import lombok.extern.java.Log;
 @Path("/ping")
 @Api(value = "Available check")
 @Log
-public class PingRestService {
+public class PingService {
     
     @GET
     @Produces({MediaType.TEXT_PLAIN})
