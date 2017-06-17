@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <action>
+        <actionName>CUSTOM-wildfly</actionName>
+        <displayName>wildfly</displayName>
+        <goals>
+            <goal>clean</goal>
+            <goal>install</goal>
+        </goals>
+        <activatedProfiles>
+            <activatedProfile>wildfly</activatedProfile>
+        </activatedProfiles>
+    </action>
+    <action>
+        <actionName>CUSTOM-tomee</actionName>
+        <displayName>tomee</displayName>
+        <goals>
+            <goal>clean</goal>
+            <goal>install</goal>
+        </goals>
+        <activatedProfiles>
+            <activatedProfile>tomee</activatedProfile>
+        </activatedProfiles>
+    </action>
+    <action>
+        <actionName>CUSTOM-payara</actionName>
+        <displayName>payara</displayName>
+        <goals>
+            <goal>clean</goal>
+            <goal>install</goal>
+        </goals>
+        <activatedProfiles>
+            <activatedProfile>payara</activatedProfile>
+        </activatedProfiles>
+    </action>
+    <action>
+        <actionName>CUSTOM-liberty</actionName>
+        <displayName>liberty</displayName>
+        <goals>
+            <goal>clean</goal>
+            <goal>install</goal>
+        </goals>
+        <activatedProfiles>
+            <activatedProfile>liberty</activatedProfile>
+        </activatedProfiles>
+    </action>
+    <!-- Release to Maven central -->
+    <action>
+        <actionName>CUSTOM-release</actionName>
+        <displayName>release</displayName>
+        <goals>
+            <goal>clean</goal>
+            <goal>deploy</goal>
+            <goal>nexus-staging:release</goal>
+        </goals>
+    </action>
+</actions>

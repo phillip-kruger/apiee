@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>com.github.phillip-kruger</groupId>
+        <artifactId>apiee</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+    
+    <artifactId>apiee-core</artifactId>
+    <packaging>jar</packaging>
+    
+    <name>apiee-core</name>
+    <description>A library to add generated swagger doc to your Java EE systems</description>
+    
+    <properties>
+        <swagger.ui.version>2.2.10</swagger.ui.version>
+        <swagger.ui.themes.version>2.1.0</swagger.ui.themes.version>
+        <font.awesome.version>4.7.0</font.awesome.version>
+        <swagger.annotations.version>1.5.13</swagger.annotations.version>
+        <swagger.parser.version>1.0.28</swagger.parser.version>
+    </properties>
+    
+    <dependencies>
+        <!-- Swagger UI -->
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>swagger-ui</artifactId>
+            <version>${swagger.ui.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>swagger-ui-themes</artifactId>
+            <version>${swagger.ui.themes.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>font-awesome</artifactId>
+            <version>${font.awesome.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <!-- Swagger - For Endpoint documentation -->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger.annotations.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-jaxrs</artifactId>
+            <version>${swagger.annotations.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.ws.rs</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-parser</artifactId>
+            <version>${swagger.parser.version}</version>
+        </dependency>
+    </dependencies>
+    
+    <build>
+                
+        <!-- Copy all web content files META-INF folder, and push it though a filter to replace maven properties -->
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/webapp</directory>
+                <targetPath>${project.build.directory}/classes/META-INF/resources</targetPath>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.css</include>
+                    <include>**/*.html</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/webapp</directory>
+                <targetPath>${project.build.directory}/classes/META-INF/resources</targetPath>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/*.css</exclude>
+                    <exclude>**/*.html</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        
+    </build>
+    
+</project>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <action>
+        <actionName>CUSTOM-release</actionName>
+        <displayName>release</displayName>
+        <goals>
+            <goal>clean</goal>
+            <goal>deploy</goal>
+            <goal>nexus-staging:release</goal>
+        </goals>
+    </action>
+    <action>
+        <actionName>CUSTOM-drop</actionName>
+        <displayName>drop</displayName>
+        <goals>
+            <goal>nexus-staging:drop</goal>
+        </goals>
+    </action>
+</actions>
