@@ -9,8 +9,9 @@ Without this configuration present, some functionality in the IDE may be limited
     <config-data xmlns="http://www.netbeans.org/ns/maven-config-data/1">
         <configurations>
             <configuration id="Payara" profiles="payara"/>
-            <configuration id="Wildfly" profiles="wildfly"/>
             <configuration id="TomEE" profiles="tomee"/>
+            <configuration id="Wildfly" profiles="wildfly"/>
+            <configuration id="Liberty" profiles="liberty"/>
         </configurations>
     </config-data>
 </project-shared-configuration>

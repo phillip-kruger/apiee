@@ -9,11 +9,15 @@ import java.util.logging.Level;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import lombok.extern.java.Log;
 
 @Path("/example")
@@ -25,7 +29,7 @@ import lombok.extern.java.Log;
                         version = "1.0-SNAPSHOT",
                         contact = @Contact (
                             name = "Phillip Kruger", 
-                            email = "phillip.kruger@gmail.com", 
+                            email = "apiee@phillip-kruger.com", 
                             url = "http://phillip-kruger.com"
                         )
                     )
@@ -34,19 +38,28 @@ import lombok.extern.java.Log;
 @Log
 public class ExampleService {
     
+    @Context
+    private UriInfo uriInfo;  
+    
     @POST
     @ApiOperation(value = "Post some example content", notes = "This will post some json to the server")
-    public JsonObject postExample(JsonObject jsonObject) {
+    public Response postExample(JsonObject jsonObject) {
         log.log(Level.INFO, "POST: {0}", jsonObject);
-        return jsonObject;
+        return Response.created(uriInfo.getRequestUri()).build();
     }
     
     @GET
-    @ApiOperation(value = "Retrieve some example content", notes = "This will return some json to the client",code = 200)
-    public JsonObject getExample(){
+    @ApiOperation(value = "Retrieve some example content", notes = "This will return some json to the client",response = JsonObject.class)
+    public Response getExample(){
         JsonObject jsonObject = Json.createObjectBuilder().add("name", "apiee example").add("url", "https://github.com/phillip-kruger/apiee-example").build();
         log.log(Level.INFO, "GET: {0}", jsonObject);
-        return jsonObject;
+        return Response.ok(jsonObject).build();
+    }
+    
+    @DELETE
+    @ApiOperation(value = "Delete some example content", notes = "This will delete some data")
+    public void deleteExample(){
+        log.log(Level.INFO, "DELETE");
     }
     
 }

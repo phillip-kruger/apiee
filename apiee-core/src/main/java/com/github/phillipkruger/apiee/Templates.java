@@ -17,7 +17,7 @@ import lombok.Getter;
 import lombok.extern.java.Log;
 
 /**
- * Helping with the templates
+ * Helping with the templates (
  * @author Phillip Kruger (apiee@phillip-kruger.com)
  */
 @Log
@@ -35,16 +35,15 @@ public class Templates {
     
     @PostConstruct
     public void afterCreate() {
-        log.finest("Apiee: Parsing images and templates");
         BufferedImage image = getLogo();
         BufferedImage image16 = getFavicon(16, image);
         BufferedImage image32 = getFavicon(32, image);
         try {
             this.originalLogo = toBytes(image);
-            log.finest("Apiee: Created logo");
+            log.finest("Apiee UI: Created logo");
             this.favicon16 = toBytes(image16);
             this.favicon32 = toBytes(image32);
-            log.finest("Apiee: Created favicons");
+            log.finest("Apiee UI: Created favicons");
         } catch (IOException ex) {
             log.log(Level.SEVERE, null, ex);
         }
