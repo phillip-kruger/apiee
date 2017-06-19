@@ -15,12 +15,10 @@ import javax.ws.rs.core.Application;
 @ApplicationPath("/api")
 public class ApplicationConfig extends Application {
 
-    // Autoscan ?
     @Override
     public Set<Class<?>> getClasses() {
-        Set<Class<?>> classes = new HashSet<>(super.getClasses());
+        Set<Class<?>> classes = new HashSet<>();
         classes.add(ExampleService.class);
-        classes.add(PingService.class);
         return classes;
     }
 

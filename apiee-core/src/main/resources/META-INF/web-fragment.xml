@@ -8,5 +8,6 @@
     <context-param>
         <param-name>resteasy.resources</param-name>
         <param-value>com.github.phillipkruger.apiee.ApieeService</param-value>
-    </context-param> 
+    </context-param>
+     
 </web-fragment>

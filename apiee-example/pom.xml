@@ -18,12 +18,13 @@
     <description>An example Java EE application that demonstrate Apiee</description>
     
     <dependencies>
-        <!-- Apiee -->
+        <!-- Apiee Core-->
         <dependency>
             <groupId>com.github.phillip-kruger</groupId>
             <artifactId>apiee-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+        
     </dependencies>
     
     <build>
