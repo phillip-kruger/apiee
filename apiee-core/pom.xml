@@ -18,7 +18,6 @@
     <properties>
         <swagger.ui.version>2.2.10</swagger.ui.version>
         <swagger.ui.themes.version>2.1.0</swagger.ui.themes.version>
-        <font.awesome.version>4.7.0</font.awesome.version>
         <swagger.annotations.version>1.5.13</swagger.annotations.version>
         <swagger.parser.version>1.0.28</swagger.parser.version>
     </properties>
@@ -35,12 +34,6 @@
             <groupId>org.webjars.bower</groupId>
             <artifactId>swagger-ui-themes</artifactId>
             <version>${swagger.ui.themes.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>font-awesome</artifactId>
-            <version>${font.awesome.version}</version>
             <scope>runtime</scope>
         </dependency>
         

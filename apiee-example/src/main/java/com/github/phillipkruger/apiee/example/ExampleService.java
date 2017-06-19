@@ -42,6 +42,7 @@ public class ExampleService {
     }
     
     @GET
+    //@Path("/")
     @ApiOperation(value = "Retrieve some example content", notes = "This will return some json to the client")
     public JsonObject getExample(){
         JsonObject jsonObject = Json.createObjectBuilder().add("name", "apiee example").add("url", "https://github.com/phillip-kruger/apiee-example").build();

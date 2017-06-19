@@ -1,4 +1,4 @@
-package com.github.phillipkruger.apiee;
+package com.github.phillipkruger.apiee.example;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

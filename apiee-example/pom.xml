@@ -3,73 +3,131 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.phillipkruger.example</groupId>
+    
+    <parent>
+        <groupId>com.github.phillip-kruger</groupId>
+        <artifactId>apiee</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+    
     <artifactId>apiee-example</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-
+    
     <name>apiee example</name>
-    <url>https://github.com/phillip-kruger/apiee-example</url>
     <description>An example Java EE application that demonstrate Apiee</description>
     
-    <scm>
-        <connection>scm:git:https://github.com/phillip-kruger/apiee-example.git</connection>
-        <url>https://github.com/phillip-kruger/apiee-example.git</url>        
-    </scm>
-
-    <distributionManagement>
-        <site>
-            <id>apie-example.wiki</id>
-            <url>https://github.com/phillip-kruger/apiee-example/wiki</url>
-        </site>
-    </distributionManagement>
-
-    <developers>
-        <developer>
-            <name>Phillip Kruger</name>
-            <email>phillip.kruger@gmail.com</email>
-            <organizationUrl>http://www.phillip-kruger.com</organizationUrl>
-        </developer>
-    </developers>
-    
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- Java version -->
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <failOnMissingWebXml>false</failOnMissingWebXml>
-        
-        <!-- JEE Platform -->        
-        <jee.version>7.0</jee.version>
-        <lombok.version>1.16.16</lombok.version>
-        
-    </properties>
-    
     <dependencies>
-        <!-- Jave ee -->
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>${jee.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- Lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
         <!-- Apiee -->
         <dependency>
-            <groupId>com.phillipkruger.library</groupId>
-            <artifactId>apiee</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>com.github.phillip-kruger</groupId>
+            <artifactId>apiee-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
     
     <build>
         <finalName>${project.artifactId}</finalName>
     </build>
+    
+    <profiles>
+        <!-- Activate using the wildfly property: mvn clean install -Dwildfly -->
+        <profile>
+            <id>wildfly</id>
+            <activation>
+                <property>
+                    <name>wildfly</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <version>1.2.0.Alpha5</version>
+                        <executions>
+                            <execution>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>        
+            </build>
+        </profile>    
+        
+        <!-- Activate using the tomee property: mvn clean install -Dtomee -->
+        <profile>
+            <id>tomee</id>
+            <activation>
+                <property>
+                    <name>tomee</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <configuration>
+                            <outputDirectory>/opt/apache-tomee-plus-7.0.3/webapps/</outputDirectory>
+                        </configuration>
+                    </plugin>
+                </plugins>
+                        
+            </build>
+        </profile>
+        
+        <!-- Activate using the payara property: mvn clean install -Dpayara -->
+        <profile>
+            <id>payara</id>
+            <activation>
+                <property>
+                    <name>payara</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <configuration>
+                            <outputDirectory>/opt/payara41/glassfish/domains/domain1/autodeploy/</outputDirectory>
+                        </configuration>
+                    </plugin>
+                </plugins>
+                        
+            </build>
+        </profile>
+        
+        <!-- Activate using the liberty property: mvn clean install -Dliberty -->
+        <profile>
+            <id>liberty</id>
+            <activation>
+                <property>
+                    <name>liberty</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <configuration>
+                            <outputDirectory>/opt/wlp/usr/servers/defaultServer/dropins/</outputDirectory>
+                        </configuration>
+                    </plugin>
+                </plugins>
+                        
+            </build>
+        </profile>
+    </profiles>
 </project>

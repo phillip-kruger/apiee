@@ -1,4 +1,4 @@
-package com.github.phillipkruger.apiee.mapper;
+package com.github.phillipkruger.apiee.providers;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;

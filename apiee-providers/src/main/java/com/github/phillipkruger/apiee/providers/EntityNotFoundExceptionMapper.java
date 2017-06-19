@@ -1,6 +1,6 @@
-package com.github.phillipkruger.apiee.mapper;
+package com.github.phillipkruger.apiee.providers;
 
-import javax.ejb.AccessLocalException;
+import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -12,12 +12,12 @@ import javax.ws.rs.ext.Provider;
  * @author Phillip Kruger (apiee@phillip-kruger.com)
  */
 @Provider
-public class NotAuthorizedExceptionMapper implements ExceptionMapper<AccessLocalException> {
+public class EntityNotFoundExceptionMapper implements ExceptionMapper<EntityNotFoundException> {
     
     @Override
     @Produces(MediaType.APPLICATION_JSON)
-    public Response toResponse(AccessLocalException accessLocalException) {
-        return Response.status(Response.Status.UNAUTHORIZED).header(REASON,accessLocalException.getMessage()).build();
+    public Response toResponse(EntityNotFoundException entityNotFoundException) {
+        return Response.status(Response.Status.NOT_FOUND).header(REASON,entityNotFoundException.getMessage()).build();
     }
     
     private static final String REASON = "reason";

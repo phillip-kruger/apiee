@@ -1,4 +1,4 @@
-package com.github.phillipkruger.apiee.mapper;
+package com.github.phillipkruger.apiee.providers;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

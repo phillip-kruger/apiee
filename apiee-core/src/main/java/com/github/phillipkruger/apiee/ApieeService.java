@@ -1,48 +1,30 @@
 package com.github.phillipkruger.apiee;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Contact;
-import io.swagger.annotations.Info;
-import io.swagger.annotations.SwaggerDefinition;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import lombok.extern.java.Log;
 
 /**
  * This service creates a swagger document and enhance it with some context
- * (Mostly making it relative to the URL)
- 
  * @author Phillip Kruger (apiee@phillip-kruger.com)
- * @see http://swagger.io/specification/
- * @see http://stackoverflow.com/questions/20937362/what-objects-can-i-inject-using-the-context-annotation
  */
 @Log
-@Path("/")
-@Api(value = "Open API Service")
-@SwaggerDefinition (info = @Info (
-                        title = "Apiee",
-                        description = "OpenAPI for Java EE",
-                        version = "1.0-0-SNAPSHOT",
-                        contact = @Contact (
-                            name = "Phillip Kruger", 
-                            email = "apiee@phillip-kruger.com", 
-                            url = "https://github.com/phillip-kruger/apiee"
-                        )
-                    )
-                )
-public class OpenAPIService {  
+@Path("/apiee/")
+public class ApieeService {  
     
     @Context
     private Application application;
@@ -50,81 +32,67 @@ public class OpenAPIService {
     @Inject 
     private SwaggerCache swaggerCache;
     
+    @Inject
+    private Templates templates;
+    
     @GET
-    @ApiOperation ("Creating apiee swagger.json file")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("apiee/swagger.json")
-    public String getApieeSwaggerJson(@Context HttpServletRequest request) {
-        log.info("apiee/swagger.json");
-        URL url = getOriginalRequestURL(request);
-        if(url!=null){
-            return swaggerCache.getSwaggerJson(getApieeClasses(),url);
-        }
-        return null;
+    @Produces("image/png")
+    @Path("favicon-{size}.png")
+    public byte[] getFavicon(@Context HttpServletRequest request,@PathParam("size") int size){
+        return templates.getFavicon(size);
     }
     
     @GET
-    @ApiOperation ("Creating apiee swagger.yaml file")
-    @Produces(MediaType.TEXT_PLAIN)
-    @Path("apiee/swagger.yaml")
-    public String getApieeSwaggerYaml(@Context HttpServletRequest request) {  
-        log.info("apiee/swagger.yaml");
-        URL url = getOriginalRequestURL(request);
-        if(url!=null){
-            return swaggerCache.getSwaggerYaml(getApieeClasses(), url);
-        }
-        return null;
+    @Produces("image/png")
+    @Path("logo.png")
+    public byte[] getLogo(@Context HttpServletRequest request){
+        return templates.getOriginalLogo();
     }
     
     @GET
-    @ApiOperation ("Creating system swagger.json file")
+    @Produces(MediaType.TEXT_HTML)
+    @Path("index.html")
+    public Response getSwaggerUI(@Context HttpServletRequest request){
+        String swaggerUI = templates.getSwaggerUIHtml(request);
+        return Response.ok(swaggerUI, MediaType.TEXT_HTML).build();
+    }
+    
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    public Response getSwaggerUINaked(@Context UriInfo info){
+        URI fw = info.getRequestUriBuilder().path("index.html").build();
+        return Response.temporaryRedirect(fw).build();
+    }
+    
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("swagger.json")
     public String getSwaggerJson(@Context HttpServletRequest request) {  
-        log.info("swagger.json");
+        log.severe("swagger.json");
         URL url = getOriginalRequestURL(request);
-        log.severe("url = " + url);
         if(url!=null){
-            String json = swaggerCache.getSwaggerJson(getClasses(),url);
-            log.severe("json = " + json);
+            Set<Class<?>> classes = application.getClasses();
+            String json = swaggerCache.getSwaggerJson(classes,url);
             return json;
         }
         return null;
     }
     
     @GET
-    @ApiOperation ("Creating system swagger.yaml file")
     @Produces(MediaType.TEXT_PLAIN)
     @Path("swagger.yaml")
     public String getSwaggerYaml(@Context HttpServletRequest request) {  
-        log.info("swagger.yaml");
+        log.severe("swagger.yaml");
         URL url = getOriginalRequestURL(request);
         if(url!=null){
-            return swaggerCache.getSwaggerYaml(getClasses(), url);
+            Set<Class<?>> classes = application.getClasses();
+            return swaggerCache.getSwaggerYaml(classes, url);
         }
         return null;
     }
     
-    private Set<Class<?>> getClasses() {
-        Set<Class<?>> apieeClasses = getApieeClasses();
-        Set<Class<?>> appClasses = new HashSet<>();
-        // Remove all apiee classes from this swagger doc
-        application.getClasses().stream().filter((c) -> (!apieeClasses.contains(c))).forEachOrdered((c) -> {
-            appClasses.add(c);
-        });
-        return appClasses;
-    }
-    
-    // Known rest-lib classes
-    private Set<Class<?>> getApieeClasses(){        
-        Set<Class<?>> apieeClasses = new HashSet<>();
-        apieeClasses.add(ApplicationConfig.class);
-        apieeClasses.add(PingService.class);
-        apieeClasses.add(OpenAPIService.class);
-        return apieeClasses;
-    }
-    
     private URL getOriginalRequestURL(HttpServletRequest request){
+        
         try {
             String path = getOriginalPath(request);
             String scheme = getOriginalRequestScheme(request);
@@ -198,5 +166,5 @@ public class OpenAPIService {
         String original = request.getHeader(X_REQUEST_URI);
         if(original!=null && !original.isEmpty())return original;
         return request.getRequestURI();
-    }
+    }   
 }

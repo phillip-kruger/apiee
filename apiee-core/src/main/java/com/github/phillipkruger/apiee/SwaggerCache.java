@@ -18,7 +18,6 @@ import lombok.extern.java.Log;
 /**
  * Caching already created swagger docs.
  * @author Phillip Kruger (apiee@phillip-kruger.com)
- * @see http://swagger.io/specification/
  */
 @Log
 @ApplicationScoped
@@ -48,8 +47,11 @@ public class SwaggerCache {
     }
     
     private String generateJson(int hash,final Set<Class<?>> classes,URL url){
-        log.log(Level.INFO, "Generating {0} response for context", url);
+        log.log(Level.INFO, "Generating {0} response from context", url);
         Swagger swagger = createSwagger(classes,url);
+        log.severe("swagger basepath = " + swagger.getBasePath());
+        log.severe("swagger host = " + swagger.getHost());
+        log.severe("swagger = " + swagger.getSwagger());
         try {
             String swaggerJson = Json.pretty().writeValueAsString(swagger);
             swaggerMap.put(hash, swaggerJson);
@@ -84,20 +86,28 @@ public class SwaggerCache {
     }
     
     private String getBasePath(final String existingBasePath,final URL url){
+        log.severe(">>> existingBasePath = [" + existingBasePath + "]");
+        log.severe(">>> url = [" + url + "]");
+        
         String path = url.getPath();
+        log.severe(">>> path = [" + path + "]");
         if(existingBasePath!=null && !existingBasePath.isEmpty()){
-            return path.substring(0, path.indexOf(existingBasePath)) + existingBasePath;
+            int i = path.indexOf(existingBasePath + SLASH);
+            log.severe(">> i = ["  + i + "]");
+            String rp = path.substring(0, i) + existingBasePath;
+            log.severe(">> Option 1 = ["  + rp + "]");
+            return rp;
         }else{
-            String filename = getFilename(url);
-            return path.substring(0, path.indexOf(filename));
+            int i = path.indexOf(APIEE_CONTEXT);
+            log.severe(">> i = ["  + i + "]");
+            String rp = path.substring(0, i);
+            log.severe(">> Option 2 = ["  + rp + "]");
+            return rp;
+            
         }
     }
     
-    private String getFilename(URL u){
-        String url = u.toString();
-        return url.substring( url.lastIndexOf(SLASH)+1, url.length() );
-    }
-    
+    private static final String APIEE_CONTEXT = "/apiee/";
     private static final String DOUBLE_POINT = ":";
     private static final String SLASH = "/";
     

@@ -1,4 +1,4 @@
-package com.github.phillipkruger.apiee.mapper;
+package com.github.phillipkruger.apiee.providers;
 
 import javax.ejb.EJBException;
 import javax.ws.rs.WebApplicationException;

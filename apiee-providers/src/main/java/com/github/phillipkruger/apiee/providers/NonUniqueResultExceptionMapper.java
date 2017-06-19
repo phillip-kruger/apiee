@@ -1,4 +1,4 @@
-package com.github.phillipkruger.apiee.mapper;
+package com.github.phillipkruger.apiee.providers;
 
 import javax.persistence.NonUniqueResultException;
 import javax.ws.rs.Produces;

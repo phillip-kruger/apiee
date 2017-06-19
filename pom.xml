@@ -14,6 +14,7 @@
     <modules>
         <module>apiee-core</module>
         <module>apiee-example</module>
+        <module>apiee-providers</module>
     </modules>
     
     <licenses>
