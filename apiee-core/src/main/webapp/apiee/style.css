@@ -1,0 +1,45 @@
+body { 
+    background-image: url("logo.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: bottom right; 
+}
+#api_info {
+    padding: 10px;
+    border-color: #f2f2f2;
+    border-width: medium;
+    border-style: dotted;
+}
+
+.info_email {
+    float: right;
+    text-decoration: none;
+    color: #f2f2f2;
+}
+.btnHeader{
+    display: block;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 6px 8px;
+    font-size: 0.9em;
+    color: #2C3E50;
+    background-color: #DADFE1;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -o-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -khtml-border-radius: 4px;
+    border-radius: 4px;
+}
+.btnHeader:hover{
+    background-color: #FFFFFF;
+}
+
+#footer {
+    color: #999; 
+    font-size: 80%; 
+    position:fixed; 
+    bottom:0; 
+    padding-bottom:5px; 
+    padding-left:5px;
+}

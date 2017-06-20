@@ -58,6 +58,14 @@ public class ApieeService {
     }
     
     @GET
+    @Produces("text/css")
+    @Path("apiee.css")
+    public Response getCss(@Context HttpServletRequest request){
+        String css = templates.getStyle();
+        return Response.ok(css, "text/css").build();
+    }
+    
+    @GET
     @Produces(MediaType.TEXT_HTML)
     public Response getSwaggerUINaked(@Context UriInfo info){
         URI fw = info.getRequestUriBuilder().path(INDEX_HTML).build();

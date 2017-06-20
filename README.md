@@ -1,3 +1,3 @@
-![logo](https://github.com/phillip-kruger/apiee-core/blob/master/src/main/webapp/logo.png?raw=true) 
+![logo](https://raw.githubusercontent.com/phillip-kruger/apiee/master/apiee-core/src/main/webapp/apiee/logo.png) 
 # Apiee
 A library to generate openAPI (swagger) documentation in Java EE projects

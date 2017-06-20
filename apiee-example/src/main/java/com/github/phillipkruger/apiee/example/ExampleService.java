@@ -26,7 +26,7 @@ import lombok.extern.java.Log;
 @SwaggerDefinition (info = @Info (
                         title = "Example Service",
                         description = "A simple example of apiee",
-                        version = "1.0-SNAPSHOT",
+                        version = "1.0.0",
                         contact = @Contact (
                             name = "Phillip Kruger", 
                             email = "apiee@phillip-kruger.com", 
