@@ -2,9 +2,6 @@ package com.github.phillipkruger.apiee.example;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Contact;
-import io.swagger.annotations.Info;
-import io.swagger.annotations.SwaggerDefinition;
 import java.util.logging.Level;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -23,17 +20,18 @@ import lombok.extern.java.Log;
 @Path("/example")
 @Produces({MediaType.APPLICATION_JSON}) 
 @Consumes({MediaType.APPLICATION_JSON})
-@SwaggerDefinition (info = @Info (
-                        title = "Example Service",
-                        description = "A simple example of apiee",
-                        version = "1.0.0",
-                        contact = @Contact (
-                            name = "Phillip Kruger", 
-                            email = "apiee@phillip-kruger.com", 
-                            url = "http://phillip-kruger.com"
-                        )
-                    )
-                )
+//You can define the definition here or in apiee.properties.
+//@SwaggerDefinition (info = @Info (
+//                        title = "Example Service",
+//                        description = "A simple example of apiee",
+//                        version = "1.0.0",
+//                        contact = @Contact (
+//                            name = "Phillip Kruger", 
+//                            email = "apiee@phillip-kruger.com", 
+//                            url = "http://phillip-kruger.com"
+//                        )
+//                    )
+//                )
 @Api(value = "Example service")
 @Log
 public class ExampleService {
