@@ -17,9 +17,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import lombok.extern.java.Log;
 
-@Path("/example")
-@Produces({MediaType.APPLICATION_JSON}) 
-@Consumes({MediaType.APPLICATION_JSON})
+
 //You can define the definition here or in apiee.properties.
 //@SwaggerDefinition (info = @Info (
 //                        title = "Example Service",
@@ -32,6 +30,9 @@ import lombok.extern.java.Log;
 //                        )
 //                    )
 //                )
+@Path("/example")
+@Produces({MediaType.APPLICATION_JSON}) 
+@Consumes({MediaType.APPLICATION_JSON})
 @Api(value = "Example service")
 @Log
 public class ExampleService {

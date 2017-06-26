@@ -24,5 +24,4 @@ public class ApplicationConfig extends Application {
         classes.add(ApieeService.class);
         return classes;
     }
-
 }
