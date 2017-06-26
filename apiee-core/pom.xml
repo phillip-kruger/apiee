@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.github.phillip-kruger</groupId>
         <artifactId>apiee</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.1</version>
         <relativePath>../</relativePath>
     </parent>
     
@@ -19,7 +19,7 @@
         <swagger.ui.version>2.2.10</swagger.ui.version>
         <swagger.ui.themes.version>2.1.0</swagger.ui.themes.version>
         <swagger.annotations.version>1.5.13</swagger.annotations.version>
-        <swagger.parser.version>1.0.28</swagger.parser.version>
+        <swagger.parser.version>1.0.29</swagger.parser.version>
     </properties>
     
     <dependencies>
@@ -38,6 +38,7 @@
         </dependency>
         
         <!-- Swagger - For Endpoint documentation -->
+        
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
@@ -50,6 +51,10 @@
             <exclusions>
                 <exclusion>
                     <groupId>javax.ws.rs</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.validation</groupId>
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>

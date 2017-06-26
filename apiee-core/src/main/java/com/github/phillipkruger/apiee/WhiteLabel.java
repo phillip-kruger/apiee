@@ -44,10 +44,10 @@ public class WhiteLabel {
             if(propertiesStream!=null){
                 props.load(propertiesStream);
             }else{
-                log.log(Level.WARNING, "Can not load whilelable properties [apiee.properties]");
+                log.log(Level.FINEST, "Can not load whilelable properties [apiee.properties]");
             }
         } catch (NullPointerException | IOException ex) {
-            log.log(Level.WARNING, "Can not load whilelable properties [apiee.properties] - {0}", ex.getMessage());
+            log.log(Level.FINEST, "Can not load whilelable properties [apiee.properties] - {0}", ex.getMessage());
         }
         
         // Logo
@@ -55,10 +55,10 @@ public class WhiteLabel {
             if(logoStream!=null){
                 this.logo = ImageIO.read(logoStream);
             }else{
-                log.log(Level.WARNING, "Can not load whilelable logo [apiee.png]");
+                log.log(Level.FINEST, "Can not load whilelable logo [apiee.png]");
             }
         } catch (IOException ex) {
-            log.log(Level.WARNING, "Can not load whilelable logo [apiee.png] - {0}", ex.getMessage());
+            log.log(Level.FINEST, "Can not load whilelable logo [apiee.png] - {0}", ex.getMessage());
         }
         
         // Css
@@ -66,10 +66,10 @@ public class WhiteLabel {
             if(cssStream!=null){
                 this.css = toString(cssStream);
             }else{
-                log.log(Level.WARNING, "Can not load whilelable css [apiee.css]");
+                log.log(Level.FINEST, "Can not load whilelable css [apiee.css]");
             }
         } catch (IOException ex) {
-            log.log(Level.WARNING, "Can not load whilelable css [apiee.css] - {0}", ex.getMessage());
+            log.log(Level.FINEST, "Can not load whilelable css [apiee.css] - {0}", ex.getMessage());
         }
         
         // Html
@@ -77,10 +77,10 @@ public class WhiteLabel {
             if(htmlStream!=null){
                 this.html = toString(htmlStream);
             }else{
-                log.log(Level.WARNING, "Can not load whilelable html [apiee.hmtl]");
+                log.log(Level.FINEST, "Can not load whilelable html [apiee.html]");
             }
         } catch (IOException ex) {
-            log.log(Level.WARNING, "Can not load whilelable html [apiee.html] - {0}", ex.getMessage());
+            log.log(Level.FINEST, "Can not load whilelable html [apiee.html] - {0}", ex.getMessage());
         }
     }
     
