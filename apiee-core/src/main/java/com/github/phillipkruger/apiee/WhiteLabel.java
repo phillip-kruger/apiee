@@ -18,7 +18,7 @@ import lombok.extern.java.Log;
 
 /**
  * White label the UI
- * @author Phillip Kruger (phillip.kruger@momentum.co.za)
+ * @author Phillip Kruger (apiee@phillip-kruger.com)
  */
 @Log
 @ApplicationScoped
