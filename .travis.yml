@@ -1,2 +1,9 @@
 ## see https://travis-ci.org/phillip-kruger/apiee
 language: java
+script: mvn clean install -DskipTests=true
+cache:
+  directories:
+    - ~/.m2/repository
+notifications:
+  email: false
+  slack: phillip-kruger:WczHYvnssHAA74KU1MWDyHiR
