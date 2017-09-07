@@ -1,6 +1,12 @@
 ## see https://travis-ci.org/phillip-kruger/apiee
 language: java
-script: mvn clean install -DskipTests=true
+install:
+  - mvn --settings .maven.xml install -DskipTests=true -Dgpg.skip -Dmaven.javadoc.skip=true -B -V
+before_install:
+  - if [ ! -z "$GPG_SECRET_KEYS" ]; then echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import; fi
+  - if [ ! -z "$GPG_OWNERTRUST" ]; then echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust; fi  
+script: 
+    mvn clean deploy --settings .maven.xml -DskipTests=true -B -U -Prelease
 cache:
   directories:
     - ~/.m2/repository
