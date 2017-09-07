@@ -12,8 +12,8 @@ script:
     mvn clean deploy --settings .maven.xml -DskipTests=true -B -U -Prelease
 
 before_deploy:
-    - export PROJECT_VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[')
-    - echo $PROJECT_VERSION
+    - export PROJECT_VERSION=1.0.2-SNAPSHOT
+    - echo $(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[')
     
 deploy:
     provider: releases
