@@ -13,9 +13,10 @@ script:
 
 before_deploy:
     - export PROJECT_VERSION=1.0.2-SNAPSHOT
-    - mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[' > version.txt
-    - version='cat version.txt'
-    - echo "$version"
+    - project_version=$(./mvnw help:evaluate -N -Dexpression=project.version|grep -v '\[')
+    - echo $project_version
+    - echo "$project_version"
+    - echo "bla bla bla bla"
     
 deploy:
     provider: releases
@@ -36,8 +37,8 @@ cache:
     
 notifications:
     email: false
-    slack:
-        phillip-kruger:WczHYvnssHAA74KU1MWDyHiR
-    template:
-      - "%{repository} (%{commit}) : %{message} %{result}"
-      - "Build details: %{build_url}"
+    slack: phillip-kruger:WczHYvnssHAA74KU1MWDyHiR
+    slack: 
+        template:
+            - "%{repository} (%{commit}) : %{message} %{result}"
+            - "Build details: %{build_url}"
