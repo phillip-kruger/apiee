@@ -11,12 +11,16 @@ install:
 script: 
     mvn clean deploy --settings .maven.xml -DskipTests=true -B -U -Prelease
 
+## before_deploy:
+##    - "mvn -DskipTests package"
+##    - export RELEASE_FILE=$(ls apiee-core/target/apiee-core-*.jar)
+    
 deploy:
     provider: releases
     api_key:
         secure: kEmbwstjQDAjsl3TR4d0rMFP99ZL4t9Sa19Bfx2FfwlStiwWyLDw9bmNGkYQyuvpMTh6igWfvx1sTvOhKqVGDCdj89/5GJquIrfPNJSJXPr3KP4zdU6xEhK57gGCa4IfMF5jcAe24z6fOrPLzEVyqMBrIxu8RQryqfqPtVvRj+uDI0xn6IPxGZ6nc97IRcIykwufNChsMOavE595FXn9WmVSBd/O+VY4LLefRLOFWxL1dTGlUxJLzSAYEVTCxYnz+lbCmfbyreu9eSmDZRnti78cjss2cHDzkInl/P1U7AXj6My0JJ8+TsVHt/HBLYDsEotv/ayTxH859qjDpvkL3FRoXEv4PtVn8TsyUjfJoCwwU5/pvFGElIlE2l6tpfnmSKkJ70eADIzox4Qi+biNx7M+mXC8tl7S0r+mSI2kjJgUMAZjjbbZQnBQ+RQCPKcseB0X2bXKxOmFb+t4OGZ9BXZWmxFXcljgiSu+Fbz2VRaTPG3OSjjIiOPeE3NdfJwoHrqBDcMzsh0c+UCTjpqghI0jHPZe8BcySEjJ5yUM74cUtGuhPru4Hs0xTKOKUubUFQ9oOsKLSgWNg28Px6BhMbEucs/8AZHtT1EiGEJPV7JB/i7qVPYGhGhWKF4id08GOhh+pd1lbNyO+Y0G1wG+VBtRjiqPIIN+NqXZbfi4goM=
     file:
-        - apiee-core/target/apiee-core-*.jar
+        - apiee-core/target/apiee-core-1.0.2-SNAPSHOT.jar
     skip_cleanup: true
     on:
         repo: phillip-kruger/apiee
