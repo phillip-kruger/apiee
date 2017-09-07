@@ -1,20 +1,24 @@
 ## see https://travis-ci.org/phillip-kruger/apiee
 language: java
 
+## export GPG details
 before_install:
     - echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import
     - echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
   
 install:
     mvn --settings .maven.xml install -DskipTests=true -Dgpg.skip -Dmaven.javadoc.skip=true -B -V
-  
+
+## Build and release to maven central  
 script: 
     mvn clean deploy --settings .maven.xml -DskipTests=true -B -U -Prelease
 
+## Get the project version
 before_deploy:
     - mvn help:evaluate -N -Dexpression=project.version|grep -v '\['
     - export project_version=$(mvn help:evaluate -N -Dexpression=project.version|grep -v '\[')
-    
+
+## Create release in GitHub    
 deploy:
     provider: releases
     api_key:
@@ -31,11 +35,12 @@ deploy:
 cache:
     directories:
         - ~/.m2/repository
-    
+
+# Send a slack notification    
 notifications:
     email: false
     slack:
-        secure: phillip-kruger:WczHYvnssHAA74KU1MWDyHiR
+        secure: EEdK3WhTTS8a/D9grYhpRc/eZnd6RMhdvuDbKu5gFrfDvzhqdCTZzV+m14RYY8aKF9t5j/agzq4zw9OkvHjDQEdcKW0cn93V5dfqoToKjdUbB7/N95E0iphU9y2Qow7nWXh4ZnHgI5ZdN7qfYdD+5OsLODwja3b3h8oonsBhXFp8VsKhAczfcCTNKCjqngZbNaOab1cyFywbUs7Xvd+LH1ZDn5ujEr6XPC8/3jT8AmLh4NKP5CG8cFGTcgB6jtC7nvYDlO6tvuSfx4CawvTduhvGMuoooGRaCuAXiWT0dejTDfo5aB18D5yqgr6akrJY724RmXHpwJClYxGzXO2NBPhUUFdEJ3C70wkpR8+8zKDhpOCUEC928/4vD1eRIPACiLhotNU73hRGOL9I17mfXWhFxEHeFqQkLkPcLOnr3ZBTjaxe6GhQ8pHABdGAFNyRZE8HM+Mtk5Fb5XkD4StDVnpt/pQ4Nq4WgHigfhzwmZOhR+TDTGnWLmrLKGQ2BcrBbTqDCl4HZt6lBbR3kRXaOo+/lt2zmWh5ZI0DykxZq2QtRTQEMqvAdB858kImnqLBmkDJlyl9VFqMGjTe+75meXu02xjnxdLuqEONRtgxM0crhPjRboTuVusnuS8k91KK32tyvYqsR/yxf68LeEerlk+pWpMjHFW5UWqPe0gQwaQ=
         template:
             - "%{repository} (%{commit}) : %{message} %{result}"
             - "Build details: %{build_url}"
