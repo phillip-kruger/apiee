@@ -10,6 +10,7 @@
             <password>${env.SONATYPE_PASSWORD}</password>
         </server>
     </servers>
+    
     <profiles>
       <profile>
         <id>ossrh</id>
