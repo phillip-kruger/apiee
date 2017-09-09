@@ -88,7 +88,7 @@
     </dependencies>
     
     <profiles>
-        <!-- Activate using the wildfly property: mvn clean install -Drelease -->
+        <!-- Activate using the release property: mvn clean install -Prelease -->
         <profile>
             <id>release</id>
             <activation>

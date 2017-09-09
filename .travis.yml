@@ -40,7 +40,4 @@ cache:
 notifications:
     email: false
     slack:
-        secure: EEdK3WhTTS8a/D9grYhpRc/eZnd6RMhdvuDbKu5gFrfDvzhqdCTZzV+m14RYY8aKF9t5j/agzq4zw9OkvHjDQEdcKW0cn93V5dfqoToKjdUbB7/N95E0iphU9y2Qow7nWXh4ZnHgI5ZdN7qfYdD+5OsLODwja3b3h8oonsBhXFp8VsKhAczfcCTNKCjqngZbNaOab1cyFywbUs7Xvd+LH1ZDn5ujEr6XPC8/3jT8AmLh4NKP5CG8cFGTcgB6jtC7nvYDlO6tvuSfx4CawvTduhvGMuoooGRaCuAXiWT0dejTDfo5aB18D5yqgr6akrJY724RmXHpwJClYxGzXO2NBPhUUFdEJ3C70wkpR8+8zKDhpOCUEC928/4vD1eRIPACiLhotNU73hRGOL9I17mfXWhFxEHeFqQkLkPcLOnr3ZBTjaxe6GhQ8pHABdGAFNyRZE8HM+Mtk5Fb5XkD4StDVnpt/pQ4Nq4WgHigfhzwmZOhR+TDTGnWLmrLKGQ2BcrBbTqDCl4HZt6lBbR3kRXaOo+/lt2zmWh5ZI0DykxZq2QtRTQEMqvAdB858kImnqLBmkDJlyl9VFqMGjTe+75meXu02xjnxdLuqEONRtgxM0crhPjRboTuVusnuS8k91KK32tyvYqsR/yxf68LeEerlk+pWpMjHFW5UWqPe0gQwaQ=
-        template:
-            - "%{repository} (%{commit}) : %{message} %{result}"
-            - "Build details: %{build_url}"
+        secure: rYI40a4SNn6S9cHbX5PyLmGj2C/aCPEr6R6AlXFxCGQ2ynzSRJvtOvHs2SCg91pCa912zeii01CzxGuT7JKq5P6ZsgBlD4XtaZUqduejBthyiHisYnQmiPsY4N0Ma0grk6bGY1gAS0eXOTaci7a9YhfceuTgDcytPfOGXPutipJ33zwRZ9YEcuikeM7Or34Ru8A8xb75XCU+lC5Xo4Td/7Km8Dav7xgzJWUAMmK6QT3PROgNcgbUdQ0DzAujmaIKi4hL75Nj0QDMr/eC3i7V3nGLrhjr8Fu6dyMHKLySgRit7eEPjC1llzalf/M6mwAI7EEcpdK9JihpVqwdDeCnePrcTHRW92bblmevXcc89yAYRn/6ypJ08qD+USoZBgU4KO9W1Qu/txod9/UBbyophTUptBOsEStIlYAmJ0vKxvMvak3zY/qdGexm1ynX3ENUbmP6D2+iwPzBrAikxvAgCSasOGSVy4uGOBvSay1HX7BMm6/N1plr+rvCnaJdfu9lQlR0jWzhaSZ0qfbiO++AaXOkeTyqPLgFItVl3d0upwOEjDwlm1c441NxlwayexC+OaQMgSfu4KCuAop83DaaOR2lp0Wz/RbkbXzhRxhqxJTrRK9OnNzWSqDOwYRE7bVpbJxE1DV1CnY5ROwswExKCZ9DG6GDgjqt06Emxo20Wuo=
