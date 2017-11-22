@@ -99,7 +99,7 @@
                         <artifactId>maven-war-plugin</artifactId>
                         <version>3.1.0</version>
                         <configuration>
-                            <outputDirectory>/opt/payara41/glassfish/domains/domain1/autodeploy/</outputDirectory>
+                            <outputDirectory>/opt/server/payara5/glassfish/domains/domain1/autodeploy/</outputDirectory>
                         </configuration>
                     </plugin>
                 </plugins>

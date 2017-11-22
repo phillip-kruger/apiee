@@ -19,7 +19,6 @@
         <swagger.ui.version>2.2.10</swagger.ui.version>
         <swagger.ui.themes.version>2.1.0</swagger.ui.themes.version>
         <swagger.version>1.5.16</swagger.version>
-        <swagger.parser.version>1.0.29</swagger.parser.version>
     </properties>
     
     <dependencies>
