@@ -33,12 +33,12 @@ import lombok.extern.java.Log;
 //                        )
 //                    )
 //                )
-@Path("/example")
-@Produces({MediaType.APPLICATION_JSON}) 
-@Consumes({MediaType.APPLICATION_JSON})
-@Api(value = "Example service")
+@Path("/example/xml")
+@Produces({MediaType.APPLICATION_XML}) 
+@Consumes({MediaType.APPLICATION_XML})
+@Api(value = "Example XML service")
 @Log
-public class ExampleService {
+public class ExampleXmlService {
     
     @Context
     private UriInfo uriInfo;  
@@ -47,36 +47,19 @@ public class ExampleService {
     private HttpServletRequest request;
     
     @POST
-    @ApiOperation(value = "Post some example content", notes = "This will post some json to the server")
-    public Response postExample(JsonObject jsonObject) {
-        log.log(Level.INFO, "POST: {0}", jsonObject);
+    @ApiOperation(value = "Post some example content", notes = "This will post some object to the server")
+    public Response postExample(SomeObject someObject) {
+        log.log(Level.INFO, "POST: {0}", someObject);
         return Response.created(uriInfo.getRequestUri()).build();
     }
     
     @GET
-    @ApiOperation(value = "Retrieve some example content", notes = "This will return some json to the client",response = JsonObject.class)
+    @ApiOperation(value = "Retrieve some example content", notes = "This will return some object to the client",response = SomeObject.class)
     public Response getExample(){
-        JsonObject jsonObject = Json.createObjectBuilder().add("name", "apiee example").add("url", "https://github.com/phillip-kruger/apiee-example").build();
-        log.log(Level.INFO, "GET: {0}", jsonObject);
-        return Response.ok(jsonObject).build();
-    }
-    
-    @DELETE
-    @ApiOperation(value = "Delete some example content", notes = "This will delete some data")
-    public void deleteExample(){
-        log.log(Level.INFO, "DELETE");
+        SomeObject object = new SomeObject("apiee example","https://github.com/phillip-kruger/apiee-example");
+        log.log(Level.INFO, "GET: {0}", object);
+        return Response.ok(object).build();
     }
     
     
-    @GET
-    @Path("/header")
-    @ApiOperation(value = "Pass header value in", notes = "Some header info")
-    @ApiImplicitParams({ @ApiImplicitParam(name = "authorization",
-                                         value = "Some info.",
-                                         dataType = "string",
-                                         paramType = "header") })
-    public String headerExample(){
-        String header = request.getHeader("authorization");
-        return "You have passes [" + header + "] in the authorization header";
-    }
 }

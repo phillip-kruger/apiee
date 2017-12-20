@@ -20,7 +20,8 @@ public class ApplicationConfig extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> classes = new HashSet<>();
-        classes.add(ExampleService.class);
+        classes.add(ExampleJsonService.class);
+        classes.add(ExampleXmlService.class);
         classes.add(ApieeService.class);
         return classes;
     }
