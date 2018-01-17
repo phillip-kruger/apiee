@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server xmlns="urn:jboss:domain:4.0">
+    <profile>
+        <subsystem xmlns="urn:jboss:domain:logging:3.0">
+            <periodic-rotating-file-handler name="FILE" autoflush="true">
+                <file path="${wildfly-swarm.logfile}"/>
+                <suffix value=".yyyy-MM-dd"/>
+                <append value="true"/>
+            </periodic-rotating-file-handler>
+            <root-logger>
+                <level name="INFO"/>
+                <handlers>
+                    <handler name="FILE"/>
+                </handlers>
+            </root-logger>
+            <logger category="${log.name}">
+                <level name="${log.level}"/>
+            </logger>
+        </subsystem>
+    </profile>
+</server>

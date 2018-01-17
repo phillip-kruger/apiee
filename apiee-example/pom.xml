@@ -27,12 +27,18 @@
         
     </dependencies>
     
+    <properties>
+        <!-- Logging settings -->
+        <log.level>FINEST</log.level> 
+        <log.name>com.github.phillipkruger.apiee</log.name>
+    </properties>
+    
     <build>
         <finalName>${project.artifactId}</finalName>
     </build>
     
-    <profiles>
-        <!-- Activate using the wildfly property: mvn clean install -Dwildfly -->
+<!--    <profiles>
+         Activate using the wildfly property: mvn clean install -Dwildfly 
         <profile>
             <id>wildfly</id>
             <activation>
@@ -59,7 +65,7 @@
             </build>
         </profile>    
         
-        <!-- Activate using the tomee property: mvn clean install -Dtomee -->
+         Activate using the tomee property: mvn clean install -Dtomee 
         <profile>
             <id>tomee</id>
             <activation>
@@ -83,7 +89,7 @@
             </build>
         </profile>
         
-        <!-- Activate using the payara property: mvn clean install -Dpayara -->
+         Activate using the payara property: mvn clean install -Dpayara 
         <profile>
             <id>payara</id>
             <activation>
@@ -107,7 +113,7 @@
             </build>
         </profile>
         
-        <!-- Activate using the liberty property: mvn clean install -Dliberty -->
+         Activate using the liberty property: mvn clean install -Dliberty 
         <profile>
             <id>liberty</id>
             <activation>
@@ -130,5 +136,5 @@
                         
             </build>
         </profile>
-    </profiles>
+    </profiles>-->
 </project>

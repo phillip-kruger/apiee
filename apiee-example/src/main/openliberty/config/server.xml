@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="${project.build.finalName}">
+
+    <!-- Enable features -->
+    <featureManager>
+        <feature>javaee-7.0</feature>
+    </featureManager>
+
+    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+    
+    <httpEndpoint id="defaultHttpEndpoint"
+        httpPort="${httpPort}"
+        httpsPort="${httpsPort}"/>
+
+    <!-- Automatically expand WAR files and EAR files -->
+    <applicationManager autoExpand="true" />
+
+    <keyStore id="defaultKeyStore" password="0p3nL1b3ry"/>
+    
+    <basicRegistry id="basic" realm="ibm/api">
+        <user name="guest" password="0p3nL1b3ry" />
+    </basicRegistry>                                                                                                                                                                                                                         
+
+
+    <application location="${project.build.directory}/${project.build.finalName}.war"/>
+    
+    <logging traceSpecification="${log.name}.*=${log.level}"/>
+    
+</server>
