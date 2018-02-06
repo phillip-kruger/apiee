@@ -113,14 +113,15 @@ public class ApieeService {
     }
     
     private int getOriginalRequestPort(HttpServletRequest request, String scheme){
-        // Try serverPort
-        int original = request.getServerPort();
-        if(original!=-1 && original>0 && original!=DEFAULT_HTTP_PORT && original!=DEFAULT_HTTPS_PORT)return original;        
-        
-        // Try header 
+
+        // Try header
         int portFromHeader = request.getIntHeader(X_FORWARDED_PORT);
         if(portFromHeader!=-1 && portFromHeader>0 && portFromHeader!=DEFAULT_HTTP_PORT && portFromHeader!=DEFAULT_HTTPS_PORT)return portFromHeader;
-        
+
+        // Try serverPort
+        int original = request.getServerPort();
+        if(original!=-1 && original>0 && original!=DEFAULT_HTTP_PORT && original!=DEFAULT_HTTPS_PORT)return original;
+
         // Try Url
         try {
             int portFromUrl = new URL(request.getRequestURL().toString()).getPort();

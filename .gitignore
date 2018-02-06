@@ -4,3 +4,6 @@
 /apiee-providers/target/
 /apiee-availability/target/
 /apiee-lite/target/
+\.idea/
+
+*.iml
