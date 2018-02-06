@@ -114,8 +114,11 @@ public class ApieeService {
     
     private int getOriginalRequestPort(HttpServletRequest request, String scheme){
 
-        // Try header
-        int portFromHeader = request.getIntHeader(X_FORWARDED_PORT);
+        // Try headers
+        int portFromHeader = request.getIntHeader(X_CUSTOM_PORT);
+        if(portFromHeader!=-1 && portFromHeader>0)return portFromHeader;
+
+        portFromHeader = request.getIntHeader(X_FORWARDED_PORT);
         if(portFromHeader!=-1 && portFromHeader>0 && portFromHeader!=DEFAULT_HTTP_PORT && portFromHeader!=DEFAULT_HTTPS_PORT)return portFromHeader;
 
         // Try serverPort
@@ -153,7 +156,10 @@ public class ApieeService {
     }
     
     private String getOriginalRequestScheme(HttpServletRequest request){
-        String original = request.getHeader(X_FORWARDED_PROTO);
+        String original = request.getHeader(X_CUSTOM_PROTO);
+        if(original!=null && !original.isEmpty())return original;
+
+        original = request.getHeader(X_FORWARDED_PROTO);
         if(original!=null && !original.isEmpty())return original;
         try {
             return new URL(request.getRequestURL().toString()).getProtocol();
@@ -176,5 +182,7 @@ public class ApieeService {
     private static final String X_FORWARDED_PORT = "x-forwarded-port";
     private static final String X_FORWARDED_PROTO = "x-forwarded-proto";
     private static final String LOCALHOST = "localhost";
+    private static final String X_CUSTOM_PORT = "x-custom-port";
+    private static final String X_CUSTOM_PROTO = "x-custom-proto";
     
 }
