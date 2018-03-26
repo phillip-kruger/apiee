@@ -3,6 +3,7 @@ package com.github.phillipkruger.apiee;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import javax.inject.Inject;
@@ -28,6 +29,9 @@ public class ApieeService {
     
     @Context
     private Application application;
+    
+    @Inject @ApieeClasses
+    private Set<Class> apieeClasses;
     
     @Inject 
     private SwaggerCache swaggerCache;
@@ -78,8 +82,7 @@ public class ApieeService {
     public String getSwaggerJson(@Context HttpServletRequest request) {  
         URL url = getOriginalRequestURL(request);
         if(url!=null){
-            Set<Class<?>> classes = application.getClasses();
-            String json = swaggerCache.getSwaggerJson(classes,url);
+            String json = swaggerCache.getSwaggerJson(getClasses(),url);
             return json;
         }
         return null;
@@ -91,11 +94,24 @@ public class ApieeService {
     public String getSwaggerYaml(@Context HttpServletRequest request) {  
         URL url = getOriginalRequestURL(request);
         if(url!=null){
-            Set<Class<?>> classes = application.getClasses();
-            return swaggerCache.getSwaggerYaml(classes, url);
+            return swaggerCache.getSwaggerYaml(getClasses(), url);
         }
         return null;
     }
+    
+    private Set<Class<?>> getClasses(){
+        Set<Class<?>> classes = application.getClasses();
+        if(classes!=null && !classes.isEmpty())return classes;    
+        
+        // Else, let's see what we discovered with Apiee Auto register.
+        Set<Class<?>> applicationClasses = new HashSet<>();
+        apieeClasses.forEach((c) -> {
+            applicationClasses.add(c);
+        });
+        
+        return applicationClasses;
+    }
+    
     
     private URL getOriginalRequestURL(HttpServletRequest request){
         
