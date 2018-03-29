@@ -76,7 +76,7 @@ public class Templates {
     private String parseHtmlTemplate(HttpServletRequest request){
         String html = getHTMLTemplate();
         // System properties.
-        html = html.replaceAll(VAR_CONTEXT_ROOT, request.getContextPath());
+        html = html.replaceAll(VAR_CONTEXT_ROOT, getOriginalContextPath(request));
         html = html.replaceAll(VAR_CURRENT_YEAR, String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
         // Whitelabel properties.
         if(whiteLabel.hasProperties()){
@@ -98,6 +98,25 @@ public class Templates {
         html = html.replaceAll(VAR_YAML_BUTTON, VAL_YAML_BUTTON);
         html = html.replaceAll(VAR_SWAGGER_THEME, VAL_SWAGGER_THEME);
         return html;
+    }
+    
+    private static final String X_REQUEST_URI = "x-request-uri";
+    private String getOriginalContextPath(HttpServletRequest request){
+        String original = request.getHeader(X_REQUEST_URI);
+        if(original!=null && !original.isEmpty()){
+            return getContextPathPart(original);
+        }
+        return request.getContextPath();
+    }
+    
+    private static final String SLASH = "/";
+    private String getContextPathPart(String uri){
+        int secondslash = uri.indexOf(SLASH, 1);
+        if(secondslash>0){
+            return uri.substring(0, secondslash);
+        }else{
+            return uri;
+        }
     }
     
     private String toString(InputStream input) throws IOException {
