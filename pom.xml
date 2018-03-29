@@ -70,7 +70,7 @@
         
         <!-- JEE Platform -->        
         <jee.version>7.0</jee.version>
-        <lombok.version>1.16.16</lombok.version>
+        <lombok.version>1.16.20</lombok.version>
        
         <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>

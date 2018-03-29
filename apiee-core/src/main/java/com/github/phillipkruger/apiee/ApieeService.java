@@ -39,47 +39,53 @@ public class ApieeService {
     @Inject
     private Templates templates;
     
+    @Context
+    private UriInfo uriInfo;
+    
+    @Context 
+    private HttpServletRequest request;
+            
     @GET
     @Produces("image/png")
     @Path("favicon-{size}.png")
-    public byte[] getFavicon(@Context HttpServletRequest request,@PathParam("size") int size){
+    public byte[] getFavicon(@PathParam("size") int size){
         return templates.getFavicon(size);
     }
     
     @GET
     @Produces("image/png")
     @Path("logo.png")
-    public byte[] getLogo(@Context HttpServletRequest request){
+    public byte[] getLogo(){
         return templates.getOriginalLogo();
     }
     
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Path(INDEX_HTML)
-    public Response getSwaggerUI(@Context HttpServletRequest request){
-        String swaggerUI = templates.getSwaggerUIHtml(request);
+    public Response getSwaggerUI(){
+        String swaggerUI = templates.getSwaggerUIHtml(uriInfo,request);
         return Response.ok(swaggerUI, MediaType.TEXT_HTML).build();
     }
     
     @GET
     @Produces("text/css")
     @Path("apiee.css")
-    public Response getCss(@Context HttpServletRequest request){
+    public Response getCss(){
         String css = templates.getStyle();
         return Response.ok(css, "text/css").build();
     }
     
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public Response getSwaggerUINaked(@Context UriInfo info){
-        URI fw = info.getRequestUriBuilder().path(INDEX_HTML).build();
+    public Response getSwaggerUINaked(){
+        URI fw = uriInfo.getRequestUriBuilder().path(INDEX_HTML).build();
         return Response.temporaryRedirect(fw).build();
     }
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("swagger.json")
-    public String getSwaggerJson(@Context HttpServletRequest request) {  
+    public String getSwaggerJson() {  
         URL url = getOriginalRequestURL(request);
         if(url!=null){
             String json = swaggerCache.getSwaggerJson(getClasses(),url);
@@ -91,7 +97,7 @@ public class ApieeService {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Path("swagger.yaml")
-    public String getSwaggerYaml(@Context HttpServletRequest request) {  
+    public String getSwaggerYaml() {  
         URL url = getOriginalRequestURL(request);
         if(url!=null){
             return swaggerCache.getSwaggerYaml(getClasses(), url);
@@ -100,6 +106,7 @@ public class ApieeService {
     }
     
     private Set<Class<?>> getClasses(){
+        
         Set<Class<?>> classes = application.getClasses();
         if(classes!=null && !classes.isEmpty())return classes;    
         

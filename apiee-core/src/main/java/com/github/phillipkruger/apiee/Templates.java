@@ -17,6 +17,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.UriInfo;
 import lombok.Getter;
 import lombok.extern.java.Log;
 
@@ -61,9 +62,9 @@ public class Templates {
         
     }
     
-    public String getSwaggerUIHtml(HttpServletRequest request){
+    public String getSwaggerUIHtml(UriInfo uriInfo,HttpServletRequest request){
         if(this.swaggerUIHtml==null){
-            this.swaggerUIHtml = parseHtmlTemplate(request);
+            this.swaggerUIHtml = parseHtmlTemplate(uriInfo,request);
         }
         return this.swaggerUIHtml;
     }
@@ -73,10 +74,10 @@ public class Templates {
         return getFavicon16();
     }
     
-    private String parseHtmlTemplate(HttpServletRequest request){
+    private String parseHtmlTemplate(UriInfo uriInfo, HttpServletRequest request){
         String html = getHTMLTemplate();
         // System properties.
-        html = html.replaceAll(VAR_CONTEXT_ROOT, getOriginalContextPath(request));
+        html = html.replaceAll(VAR_CONTEXT_ROOT, getOriginalContextPath(uriInfo,request));
         html = html.replaceAll(VAR_CURRENT_YEAR, String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
         // Whitelabel properties.
         if(whiteLabel.hasProperties()){
@@ -101,22 +102,28 @@ public class Templates {
     }
     
     private static final String X_REQUEST_URI = "x-request-uri";
-    private String getOriginalContextPath(HttpServletRequest request){
-        String original = request.getHeader(X_REQUEST_URI);
-        if(original!=null && !original.isEmpty()){
-            return getContextPathPart(original);
+    private String getOriginalContextPath(UriInfo uriInfo,HttpServletRequest request){
+        String fromHeader = request.getHeader(X_REQUEST_URI);
+        
+        if(fromHeader!=null && !fromHeader.isEmpty()){
+            return getContextPathPart(uriInfo,request,fromHeader);
         }
         return request.getContextPath();
     }
     
-    private static final String SLASH = "/";
-    private String getContextPathPart(String uri){
-        int secondslash = uri.indexOf(SLASH, 1);
-        if(secondslash>0){
-            return uri.substring(0, secondslash);
+    private String getContextPathPart(UriInfo uriInfo,HttpServletRequest request, String fromHeader){
+        
+        String restBase = request.getServletPath();
+        String restUrl = restBase + uriInfo.getPath();
+        
+        int restUrlStart = fromHeader.indexOf(restUrl);
+        
+        if(restUrlStart>0){
+            return fromHeader.substring(0, restUrlStart);
         }else{
-            return uri;
+            return fromHeader;
         }
+        
     }
     
     private String toString(InputStream input) throws IOException {
