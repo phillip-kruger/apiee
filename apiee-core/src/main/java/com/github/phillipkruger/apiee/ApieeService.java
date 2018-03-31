@@ -168,8 +168,15 @@ public class ApieeService {
     }
     
     private String getOriginalRequestHost(HttpServletRequest request){
-        String original = request.getServerName();
+        String original = request.getHeader(X_CUSTOM_HOST);
+        if(original!=null && !original.isEmpty())return original;
+        
+        original = request.getHeader(X_FORWARDED_HOST);
+        if(original!=null && !original.isEmpty())return original;
+        
+        original = request.getServerName();
         if(original!=null && !original.isEmpty())return original;        
+        
         try {
             return new URL(request.getRequestURL().toString()).getHost();
         } catch (MalformedURLException ex) {
@@ -184,6 +191,7 @@ public class ApieeService {
 
         original = request.getHeader(X_FORWARDED_PROTO);
         if(original!=null && !original.isEmpty())return original;
+        
         try {
             return new URL(request.getRequestURL().toString()).getProtocol();
         } catch (MalformedURLException ex) {
@@ -204,8 +212,11 @@ public class ApieeService {
     private static final String X_REQUEST_URI = "x-request-uri";
     private static final String X_FORWARDED_PORT = "x-forwarded-port";
     private static final String X_FORWARDED_PROTO = "x-forwarded-proto";
+    private static final String X_FORWARDED_HOST = "x-forwarded-host";
+    
     private static final String LOCALHOST = "localhost";
     private static final String X_CUSTOM_PORT = "x-custom-port";
     private static final String X_CUSTOM_PROTO = "x-custom-proto";
+    private static final String X_CUSTOM_HOST = "x-custom-host";
     
 }

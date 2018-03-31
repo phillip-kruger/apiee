@@ -8,4 +8,5 @@
 
 ***
 
-https://github.com/phillip-kruger/apiee/wiki
+
+**Documentation available here:** [https://github.com/phillip-kruger/apiee/wiki](https://github.com/phillip-kruger/apiee/wiki)
