@@ -7,9 +7,13 @@ import io.swagger.models.Info;
 import io.swagger.models.License;
 import io.swagger.models.Scheme;
 import io.swagger.models.Swagger;
+import io.swagger.models.Tag;
 import io.swagger.util.Json;
 import io.swagger.util.Yaml;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -83,12 +87,59 @@ public class SwaggerCache {
     
     private Swagger createSwagger(final Set<Class<?>> classes,final URL url){
         Swagger swagger = new Reader(new Swagger()).read(classes);
-        swagger.addScheme(Scheme.forValue(url.getProtocol().toUpperCase()));
-        swagger.setHost(url.getHost() + DOUBLE_POINT + url.getPort());
-        swagger.setBasePath(getBasePath(swagger.getBasePath(), url));
+        
         Info info = getSwaggerInfo();
         if(info!=null)swagger.setInfo(info);
+        
+        String consumes = whiteLabel.getProperty(CONSUMES, null);
+        if(isSet(consumes))swagger.setConsumes(toList(consumes));
+        
+        String produces = whiteLabel.getProperty(PRODUCES, null);
+        if(isSet(produces))swagger.setProduces(toList(produces));
+        
+        String basePath = whiteLabel.getProperty(BASE_PATH, getBasePath(swagger.getBasePath(), url));
+        if(isSet(basePath))swagger.setBasePath(basePath);
+        
+        String schemes = whiteLabel.getProperty(SCHEMES, url.getProtocol().toUpperCase());
+        if(isSet(schemes))swagger.setSchemes(toSchemeList(schemes));
+                
+        String host = whiteLabel.getProperty(HOST, url.getHost() + DOUBLE_POINT + url.getPort());
+        if(isSet(host))swagger.setHost(host);
+        
+        String tags = whiteLabel.getProperty(TAGS, null);
+        if(isSet(tags))swagger.setTags(toTagList(tags));
+        
         return swagger;
+    }
+    
+    private List<String> toList(String s) {
+        return Arrays.asList(s.split(COMMA));
+    }
+    
+    private List<Scheme> toSchemeList(String schemes) {
+        List<Scheme> schemeList = new ArrayList<>();
+        toList(schemes).forEach((scheme) -> {
+            schemeList.add(Scheme.forValue(scheme));
+        });
+        return schemeList;
+    }
+    
+    private List<Tag> toTagList(String tags) {
+        List<Tag> tagList = new ArrayList<>();
+        
+        for(String tag:toList(tags)){
+            Tag t = new Tag();
+            if(tag.contains(DOUBLE_POINT)){
+                String[] nameAndDesc = tag.split(DOUBLE_POINT);
+                t.setName(nameAndDesc[0]);
+                t.setDescription(nameAndDesc[1]);
+            }else{
+                t.setName(tag);
+            }
+            
+            tagList.add(t);
+        }
+        return tagList;
     }
     
     private String getBasePath(final String existingBasePath,final URL url){
@@ -168,6 +219,7 @@ public class SwaggerCache {
     private static final String APIEE_CONTEXT = "/apiee/";
     private static final String DOUBLE_POINT = ":";
     private static final String SLASH = "/";
+    private static final String COMMA = ",";
     
     private static final String INFO_TITLE = "infoTitle";
     private static final String INFO_DESC = "infoDescription";
@@ -179,4 +231,12 @@ public class SwaggerCache {
     private static final String INFO_CONTACT_URL = "infoContactUrl";    
     private static final String INFO_LICENSE_NAME = "infoLicenseName";
     private static final String INFO_LICENSE_URL = "infoLicenseUrl";
+    private static final String CONSUMES = "consumes";
+    private static final String PRODUCES = "produces";
+    private static final String BASE_PATH = "basePath";
+    private static final String SCHEMES = "schemes";
+    private static final String HOST = "host";
+    private static final String TAGS = "tags";
+    
+
 }

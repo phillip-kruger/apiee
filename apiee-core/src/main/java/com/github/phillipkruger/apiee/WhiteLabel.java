@@ -100,12 +100,18 @@ public class WhiteLabel {
         return this.props!=null && !this.props.isEmpty();
     }
     
+    public boolean hasProperty(String key){
+        return hasProperties() && props.containsKey(key);
+    }
+    
     public String getProperty(String key, String defaultValue){
-        if(hasProperties() && props.containsKey(key)){
+        if(hasProperty(key)){
             return props.getProperty(key);
         }
         return defaultValue;
     }
+    
+    
     
     public Map<String,String> getProperties(){
         if(hasProperties()){
