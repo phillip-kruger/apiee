@@ -52,17 +52,17 @@
                     window.SwaggerTranslator.translate();
                 }
                 window.swaggerUi = new SwaggerUi({
-                    url: jsonUrl,
+                    url: jsonUrl, // Externalize this ?
                     dom_id: "swagger-ui-container",
-                    supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
+                    supportedSubmitMethods: %supportedSubmitMethods%,
                     onComplete: function(swaggerApi, swaggerUi){
                         if(typeof initOAuth == "function") {
                             initOAuth({
-                                clientId: "your-client-id",
-                                clientSecret: "your-client-secret-if-required",
-                                realm: "your-realms",
-                                appName: "your-app-name",
-                                scopeSeparator: " ",
+                                clientId: "%oauthClientId%",
+                                clientSecret: "%oauthClientSecret%",
+                                realm: "%oauthRealm%",
+                                appName: "%oauthAppName%",
+                                scopeSeparator: "%oauthScopeSeparator%",
                                 additionalQueryStringParams: {}
                             });
                         }
@@ -74,12 +74,12 @@
                     onFailure: function(data) {
                         log("Unable to Load SwaggerUI");
                     },
-                    docExpansion: "none",
-                    jsonEditor: true,
-                    defaultModelRendering: 'schema',
-                    showRequestHeaders: true,
-                    showOperationIds: false,
-                    validatorUrl: null
+                    docExpansion: "%docExpansion%",
+                    jsonEditor: %jsonEditor%,
+                    defaultModelRendering: "%defaultModelRendering%",
+                    showRequestHeaders: %showRequestHeaders%,
+                    showOperationIds: %showOperationIds%,
+                    validatorUrl: %validatorUrl%
                 });
 
                 window.swaggerUi.load();

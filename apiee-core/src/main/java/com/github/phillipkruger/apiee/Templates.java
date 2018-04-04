@@ -24,6 +24,9 @@ import lombok.extern.java.Log;
 /**
  * Helping with the templates (
  * @author Phillip Kruger (apiee@phillip-kruger.com)
+ * 
+ * see https://github.com/swagger-api/swagger-ui/tree/v2.2.10
+ * to do more customization, provide your own template.
  */
 @Log
 @ApplicationScoped
@@ -98,6 +101,18 @@ public class Templates {
         html = html.replaceAll(VAR_JSON_BUTTON, VAL_JSON_BUTTON);
         html = html.replaceAll(VAR_YAML_BUTTON, VAL_YAML_BUTTON);
         html = html.replaceAll(VAR_SWAGGER_THEME, VAL_SWAGGER_THEME);
+        html = html.replaceAll(VAR_DOC_EXPANSION, VAL_DOC_EXPANSION);
+        html = html.replaceAll(VAR_JSON_EDITOR, VAL_JSON_EDITOR);
+        html = html.replaceAll(VAR_DEFAULT_MODEL_RENDERING, VAL_DEFAULT_MODEL_RENDERING);
+        html = html.replaceAll(VAR_SHOW_REQUEST_HEADERS, VAL_SHOW_REQUEST_HEADERS);
+        html = html.replaceAll(VAR_SHOW_OPERATION_IDS, VAL_SHOW_OPERATION_IDS);
+        html = html.replaceAll(VAR_VALIDATOR_URL,VAL_VALIDATOR_URL);
+        html = html.replaceAll(VAR_SUPPORTED_SUBMIT_METHODS,VAL_SUPPORTED_SUBMIT_METHODS);
+        html = html.replaceAll(VAR_OAUTH_CLIENT_ID,VAL_OAUTH_CLIENT_ID);
+        html = html.replaceAll(VAR_OAUTH_CLIENT_SECRET,VAL_OAUTH_CLIENT_SECRET);
+        html = html.replaceAll(VAR_OAUTH_REALM,VAL_OAUTH_REALM);
+        html = html.replaceAll(VAR_OAUTH_APP_NAME,VAL_OAUTH_APP_NAME);
+        html = html.replaceAll(VAR_OAUTH_SCOPE_SEPARATOR,VAL_OAUTH_SCOPE_SEPARATOR);
         return html;
     }
     
@@ -199,6 +214,43 @@ public class Templates {
     
     private static final String VAR_SWAGGER_THEME = "%swaggerUiTheme%";
     private static final String VAL_SWAGGER_THEME = "muted";
+    
+    // Other swagger settings (you can still provide your own)
+    private static final String VAR_DOC_EXPANSION = "%docExpansion%";
+    private static final String VAL_DOC_EXPANSION = "none";
+    
+    private static final String VAR_JSON_EDITOR = "%jsonEditor%";
+    private static final String VAL_JSON_EDITOR = "true";
+    
+    private static final String VAR_DEFAULT_MODEL_RENDERING = "%defaultModelRendering%";
+    private static final String VAL_DEFAULT_MODEL_RENDERING = "schema";
+    
+    private static final String VAR_SHOW_REQUEST_HEADERS = "%showRequestHeaders%";
+    private static final String VAL_SHOW_REQUEST_HEADERS = "true";
+    
+    private static final String VAR_SHOW_OPERATION_IDS = "%showOperationIds%";
+    private static final String VAL_SHOW_OPERATION_IDS = "false";
+    
+    private static final String VAR_VALIDATOR_URL = "%validatorUrl%";
+    private static final String VAL_VALIDATOR_URL = "null";
+    
+    private static final String VAR_SUPPORTED_SUBMIT_METHODS = "%supportedSubmitMethods%";
+    private static final String VAL_SUPPORTED_SUBMIT_METHODS = "['get', 'post', 'put', 'delete']";
+    
+    private static final String VAR_OAUTH_CLIENT_ID = "%oauthClientId%";
+    private static final String VAL_OAUTH_CLIENT_ID = "your-client-id";
+    
+    private static final String VAR_OAUTH_CLIENT_SECRET = "%oauthClientSecret%";
+    private static final String VAL_OAUTH_CLIENT_SECRET = "your-client-secret-if-required";
+    
+    private static final String VAR_OAUTH_REALM = "%oauthRealm%";
+    private static final String VAL_OAUTH_REALM = "your-realms";
+    
+    private static final String VAR_OAUTH_APP_NAME = "%oauthAppName%";
+    private static final String VAL_OAUTH_APP_NAME = "your-app-name";
+    
+    private static final String VAR_OAUTH_SCOPE_SEPARATOR = "%oauthScopeSeparator%";
+    private static final String VAL_OAUTH_SCOPE_SEPARATOR = " ";
     
     private static final String PERSENTAGE = "%";
     
