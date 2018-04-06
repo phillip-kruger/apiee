@@ -239,6 +239,8 @@ public class SwaggerCache {
             
             securityDefinitions.put(oauth2Key, oAuth2Definition);
         }
+        
+        
         return securityDefinitions;
     }
     
@@ -359,6 +361,5 @@ public class SwaggerCache {
     private static final String OAUTH2_FLOW = "securityOAuth2Flow"; // ACCESS_CODE,APPLICATION,IMPLICIT,PASSWORD
     private static final String OAUTH2_SCOPES = "securityOAuth2Scopes"; // Comma-seperated with name:description
     private static final String OAUTH2_DESC = "securityOAuth2Desc";
-    
-
+            
 }
