@@ -21,18 +21,9 @@ import javax.ws.rs.core.UriInfo;
 import lombok.extern.java.Log;
 
 
-//You can define the definition here or in apiee.properties.
-//@SwaggerDefinition (info = @Info (
-//                        title = "Example Service",
-//                        description = "A simple example of apiee",
-//                        version = "1.0.0",
-//                        contact = @Contact (
-//                            name = "Phillip Kruger", 
-//                            email = "apiee@phillip-kruger.com", 
-//                            url = "http://phillip-kruger.com"
-//                        )
-//                    )
-//                )
+
+ 
+
 @Path("/example/json")
 @Produces({MediaType.APPLICATION_JSON}) 
 @Consumes({MediaType.APPLICATION_JSON})
