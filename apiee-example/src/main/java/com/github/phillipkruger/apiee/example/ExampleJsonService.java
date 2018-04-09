@@ -4,6 +4,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ResponseHeader;
+import java.net.HttpURLConnection;
 import java.util.logging.Level;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -20,10 +24,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import lombok.extern.java.Log;
 
-
-
- 
-
 @Path("/example/json")
 @Produces({MediaType.APPLICATION_JSON}) 
 @Consumes({MediaType.APPLICATION_JSON})
@@ -39,6 +39,10 @@ public class ExampleJsonService {
     
     @POST
     @ApiOperation(value = "Post some example content", notes = "This will post some json to the server")
+    @ApiResponses({
+        @ApiResponse(code = HttpURLConnection.HTTP_CREATED, message = "Successfully done something"),
+        @ApiResponse(code = HttpURLConnection.HTTP_PRECON_FAILED, message = "Input validation failed, see reason header",responseHeaders = @ResponseHeader(name = "reason",response = String.class))
+    })
     public Response postExample(JsonObject jsonObject) {
         log.log(Level.INFO, "POST: {0}", jsonObject);
         return Response.created(uriInfo.getRequestUri()).build();
