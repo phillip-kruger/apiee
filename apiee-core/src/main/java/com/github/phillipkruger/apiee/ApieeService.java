@@ -8,10 +8,13 @@ import java.util.Set;
 import java.util.logging.Level;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -62,7 +65,8 @@ public class ApieeService {
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Path(INDEX_HTML)
-    public Response getSwaggerUI(){
+    public Response getSwaggerUI(@QueryParam("clearCache") @DefaultValue("false") boolean clearCache){
+        if(clearCache)swaggerCache.clearCache();
         String swaggerUI = templates.getSwaggerUIHtml(uriInfo,request);
         return Response.ok(swaggerUI, MediaType.TEXT_HTML).build();
     }
@@ -105,6 +109,11 @@ public class ApieeService {
         return null;
     }
     
+    @DELETE
+    public void clearCache(){
+        swaggerCache.clearCache();
+    }
+    
     private Set<Class<?>> getClasses(){
         
         Set<Class<?>> classes = application.getClasses();
@@ -119,9 +128,7 @@ public class ApieeService {
         return applicationClasses;
     }
     
-    
     private URL getOriginalRequestURL(HttpServletRequest request){
-        
         try {
             String path = getOriginalPath(request);
             String scheme = getOriginalRequestScheme(request);
@@ -199,7 +206,6 @@ public class ApieeService {
             return HTTP; // default
         }
     }
-    
     
     private String getOriginalPath(HttpServletRequest request){
         String original = request.getHeader(X_REQUEST_URI);

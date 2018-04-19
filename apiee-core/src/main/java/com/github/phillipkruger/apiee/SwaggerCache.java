@@ -63,6 +63,11 @@ public class SwaggerCache {
         }
     }
     
+    public void clearCache(){
+        log.info("Clearing Apiee cache...");
+        swaggerMap.clear();
+    }
+    
     private String generateJson(int hash,final Set<Class<?>> classes,URL url){
         log.log(Level.FINEST, "Generating {0} response from context", url);
         Swagger swagger = createSwagger(classes,url);
