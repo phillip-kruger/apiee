@@ -113,6 +113,7 @@ public class Templates {
         html = html.replaceAll(VAR_OAUTH_REALM,VAL_OAUTH_REALM);
         html = html.replaceAll(VAR_OAUTH_APP_NAME,VAL_OAUTH_APP_NAME);
         html = html.replaceAll(VAR_OAUTH_SCOPE_SEPARATOR,VAL_OAUTH_SCOPE_SEPARATOR);
+        html = html.replaceAll(VAR_SERVER_INFO, request.getServletContext().getServerInfo());
         return html;
     }
     
@@ -251,6 +252,8 @@ public class Templates {
     
     private static final String VAR_OAUTH_SCOPE_SEPARATOR = "%oauthScopeSeparator%";
     private static final String VAL_OAUTH_SCOPE_SEPARATOR = " ";
+    
+    private static final String VAR_SERVER_INFO = "%serverInfo%";
     
     private static final String PERSENTAGE = "%";
     
