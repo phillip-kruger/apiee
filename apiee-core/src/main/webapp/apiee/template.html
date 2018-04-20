@@ -70,6 +70,15 @@
                         if(window.SwaggerTranslator) {
                             window.SwaggerTranslator.translate();
                         }
+                        
+                        $.ajax({
+                            type: "GET",
+                            url: "generatedOn.json",
+                            dataType: 'json',
+                            success: function(json, textStatus, request){
+                                $("#generatedOn").text(json.formattedDate);
+                            }
+                        });
                     },
                     onFailure: function(data) {
                         log("Unable to Load SwaggerUI");
@@ -111,7 +120,9 @@
 
         <div id='footer'>
             <p class="swagger-ui-wrap">
-                Created with <a target="_blank" href="https://github.com/phillip-kruger/apiee" data-sw-translate>Apiee</a> . &copy; %currentYear% %copyrighBy% . Running on %serverInfo%
+                Created with <a target="_blank" href="https://github.com/phillip-kruger/apiee" data-sw-translate>Apiee</a> . &copy; %currentYear% %copyrighBy% 
+                | Generated on <i id="generatedOn">0</i>
+                | Running on %serverInfo%
             </p>
         </div>
     </body>

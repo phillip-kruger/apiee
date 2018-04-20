@@ -1,9 +1,16 @@
 package com.github.phillipkruger.apiee;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import javax.inject.Inject;
@@ -109,6 +116,26 @@ public class ApieeService {
         return null;
     }
     
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("generatedOn.json")
+    public String getGeneratedOn() {  
+        URL url = getSwaggerJsonUrl(getOriginalRequestURL(request));
+        if(url!=null){
+            Date date = swaggerCache.getGeneratedDate(url);
+            if(date!=null)return toJson(date);
+        }
+        return null;
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("cacheMap.json")
+    public String getCacheMap(){
+        Map<Integer, CachedDocument> swaggerMap = swaggerCache.getSwaggerMap();
+        return toJson(swaggerMap);
+    }
+    
     @DELETE
     public void clearCache(){
         swaggerCache.clearCache();
@@ -212,6 +239,42 @@ public class ApieeService {
         if(original!=null && !original.isEmpty())return original;
         return request.getRequestURI();
     }   
+    
+    private String toJson(Map<Integer,CachedDocument> cache){
+        ObjectMapper mapper = new ObjectMapper();
+ 
+        ArrayNode arrayNode = mapper.createArrayNode();
+ 
+        Collection<CachedDocument> cachedDocuments = cache.values();
+        
+        for(CachedDocument cachedDocument : cachedDocuments){
+            ObjectNode objectNode = mapper.createObjectNode();
+            objectNode.put("hash", cachedDocument.getHash());
+            objectNode.put("generatedOn", cachedDocument.getGeneratedOn().toString());
+            objectNode.put("url", cachedDocument.getUrl().toExternalForm());
+            arrayNode.add(objectNode);
+        }
+        return arrayNode.toString();
+ 
+    }
+    
+    private String toJson(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat();
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode objectNode = mapper.createObjectNode();
+        objectNode.put("date", date.toString());
+        objectNode.put("formattedDate", sdf.format(date));
+        return objectNode.toString();
+ 
+    }
+    
+    private URL getSwaggerJsonUrl(URL sibling){
+        try {
+            return new URL(sibling,"swagger.json");
+        } catch (MalformedURLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
     
     private static final String HTTP = "http";
     private static final String INDEX_HTML = "index.html";

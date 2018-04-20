@@ -18,6 +18,7 @@ import io.swagger.util.Yaml;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ import java.util.logging.Level;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
+import lombok.Getter;
 import lombok.extern.java.Log;
 
 /**
@@ -35,8 +37,9 @@ import lombok.extern.java.Log;
  */
 @Log
 @ApplicationScoped
-public class SwaggerCache {  
-    private final Map<Integer,String> swaggerMap = new ConcurrentHashMap<>();
+public class SwaggerCache {
+    @Getter
+    private final Map<Integer,CachedDocument> swaggerMap = new ConcurrentHashMap<>();
     
     @Inject
     private WhiteLabel whiteLabel;
@@ -46,7 +49,7 @@ public class SwaggerCache {
         if(swaggerMap.containsKey(hash)){
             // Load from cache
             log.log(Level.FINEST, "Loading {0} from cache", url);
-            return swaggerMap.get(hash);
+            return swaggerMap.get(hash).getDocument();
         }else{
             return generateJson(hash,classes,url);
         }
@@ -57,9 +60,18 @@ public class SwaggerCache {
         if(swaggerMap.containsKey(hash)){
             // Load from cache
             log.log(Level.FINEST, "Loading {0} from cache", url);
-            return swaggerMap.get(hash);
+            return swaggerMap.get(hash).getDocument();
         }else{
             return generateYaml(hash,classes,url);
+        }
+    }
+    
+    public Date getGeneratedDate(@NotNull final URL url) {
+        int hash = url.toExternalForm().hashCode();
+        if(swaggerMap.containsKey(hash)){
+            return swaggerMap.get(hash).getGeneratedOn();
+        }else{
+            return null;
         }
     }
     
@@ -73,7 +85,7 @@ public class SwaggerCache {
         Swagger swagger = createSwagger(classes,url);
         try {
             String swaggerJson = Json.pretty().writeValueAsString(swagger);
-            swaggerMap.put(hash, swaggerJson);
+            swaggerMap.put(hash, new CachedDocument(hash,url,swaggerJson));
             return swaggerJson;
         } catch (JsonProcessingException ex) {
             log.log(Level.WARNING, "Could not generate {0} - {1}", new Object[]{url.toString(), ex.getMessage()});
@@ -87,7 +99,7 @@ public class SwaggerCache {
         Swagger swagger = createSwagger(classes,url);
         try {
             String swaggerYaml = Yaml.pretty().writeValueAsString(swagger);
-            swaggerMap.put(hash, swaggerYaml);
+            swaggerMap.put(hash, new CachedDocument(hash,url,swaggerYaml));
             return swaggerYaml;
         } catch (JsonProcessingException ex) {
             log.log(Level.WARNING, "Could not generate {0} - {1}", new Object[]{url.toString(), ex.getMessage()});
