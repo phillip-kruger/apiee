@@ -7,17 +7,27 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ResponseHeader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.util.Scanner;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.Encoded;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -74,4 +84,26 @@ public class ExampleJsonService {
         String header = request.getHeader("authorization");
         return "You have passes [" + header + "] in the authorization header";
     }
+    
+    @POST
+    @Path("/upload")
+    @ApiOperation(value = "Upload some json file and print to string", notes = "Upload example")
+    public Response uploadJson(@FormParam("file") File uploadedFile){
+        
+        try(FileInputStream fis = new FileInputStream(uploadedFile)){
+        
+            String contents = convertStreamToString(fis);
+        
+            return Response.accepted(contents).build();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return Response.serverError().build();
+        } 
+    }
+    
+    private String convertStreamToString(InputStream is) {
+        Scanner s = new Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
+    }
+    
 }
