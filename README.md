@@ -14,9 +14,6 @@
 [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/phillipkruger)
 
 ***
-
-# Apiee
-
 ## Quick Start
 Apiee creates swagger documentation from your JAX-RS and Swagger annotations in Runtime. It also give you a custom Swagger UI screen.
  
