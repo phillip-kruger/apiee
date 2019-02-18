@@ -1,20 +1,6 @@
 package com.github.phillipkruger.apiee;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import io.swagger.jaxrs.Reader;
-import io.swagger.models.Contact;
-import io.swagger.models.Info;
-import io.swagger.models.License;
-import io.swagger.models.Scheme;
-import io.swagger.models.Swagger;
-import io.swagger.models.Tag;
-import io.swagger.models.auth.BasicAuthDefinition;
-import io.swagger.models.auth.ApiKeyAuthDefinition;
-import io.swagger.models.auth.OAuth2Definition;
-import io.swagger.models.auth.In;
-import io.swagger.models.auth.SecuritySchemeDefinition;
-import io.swagger.util.Json;
-import io.swagger.util.Yaml;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +14,18 @@ import java.util.logging.Level;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
+
+import io.swagger.v3.core.util.Json;
+import io.swagger.v3.core.util.Yaml;
+import io.swagger.v3.jaxrs2.Reader;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.tags.Tag;
 import lombok.Getter;
 import lombok.extern.java.Log;
 
@@ -82,7 +80,7 @@ public class SwaggerCache {
     
     private String generateJson(int hash,final Set<Class<?>> classes,URL url){
         log.log(Level.FINEST, "Generating {0} response from context", url);
-        Swagger swagger = createSwagger(classes,url);
+        OpenAPI swagger = createSwagger(classes,url);
         try {
             String swaggerJson = Json.pretty().writeValueAsString(swagger);
             swaggerMap.put(hash, new CachedDocument(hash,url,swaggerJson));
@@ -96,7 +94,7 @@ public class SwaggerCache {
     
     private String generateYaml(int hash,final Set<Class<?>> classes,URL url){
         log.log(Level.FINEST, "Generating {0} response for context", url);
-        Swagger swagger = createSwagger(classes,url);
+        OpenAPI swagger = createSwagger(classes,url);
         try {
             String swaggerYaml = Yaml.pretty().writeValueAsString(swagger);
             swaggerMap.put(hash, new CachedDocument(hash,url,swaggerYaml));
@@ -108,30 +106,27 @@ public class SwaggerCache {
         return null;
     }
     
-    private Swagger createSwagger(final Set<Class<?>> classes,final URL url){
-        Swagger swagger = new Reader(new Swagger()).read(classes);
+    private OpenAPI createSwagger(final Set<Class<?>> classes,final URL url){
+        OpenAPI swagger = new Reader(new OpenAPI()).read(classes);
         
         Info info = getSwaggerInfo(swagger);
         if(info!=null)swagger.setInfo(info);
-        
+        /*
         Map<String, SecuritySchemeDefinition> securityDefinitions = getSecurityDefinitions(swagger);
         if(securityDefinitions!=null)swagger.setSecurityDefinitions(securityDefinitions);
-        
+        /*
         String consumes = whiteLabel.getProperty(CONSUMES, null);
         if(anyIsSet(consumes))swagger.setConsumes(toList(swagger.getConsumes(),consumes));
         
         String produces = whiteLabel.getProperty(PRODUCES, null);
         if(anyIsSet(produces))swagger.setProduces(toList(swagger.getProduces(),produces));
-        
-        String basePath = whiteLabel.getProperty(BASE_PATH, getBasePath(swagger.getBasePath(), url));
-        if(anyIsSet(basePath))swagger.setBasePath(basePath);
-        
-        String schemes = whiteLabel.getProperty(SCHEMES, url.getProtocol().toUpperCase());
-        if(anyIsSet(schemes))swagger.setSchemes(toSchemeList(swagger.getSchemes(),schemes));
-                
-        String host = whiteLabel.getProperty(HOST, url.getHost() + DOUBLE_POINT + url.getPort());
-        if(anyIsSet(host))swagger.setHost(host);
-        
+        */
+        String basePath = whiteLabel.getProperty(BASE_PATH, getBasePath(null, url));
+        if(anyIsSet(basePath)){
+            List<Server> servers=new ArrayList<>();
+            servers.add(new Server().url(basePath));
+            swagger.setServers(servers);}
+
         String tags = whiteLabel.getProperty(TAGS, null);
         if(anyIsSet(tags))swagger.setTags(toTagList(swagger.getTags(),tags));
         
@@ -146,11 +141,11 @@ public class SwaggerCache {
         }
         return original;
     }
-    
+    /*
     private List<Scheme> toSchemeList(List<Scheme> original,String schemes) {
         List<Scheme> schemeList = new ArrayList<>();
         toList(schemes).forEach((scheme) -> {
-            schemeList.add(Scheme.forValue(scheme));
+            //schemeList.add(SecurityScheme.forValue(scheme));
         });
         
         if(original!=null){
@@ -159,9 +154,9 @@ public class SwaggerCache {
         }else{
             return schemeList;
         }
-    }
+    }*/
     
-    private List<Tag> toTagList(List<Tag> original,String tags) {
+    private List<Tag> toTagList(List<Tag> original, String tags) {
         List<Tag> tagList = new ArrayList<>();
         
         for(String tag:toList(tags)){
@@ -200,8 +195,8 @@ public class SwaggerCache {
             
         }
     }
-    
-    private Map<String, SecuritySchemeDefinition> getSecurityDefinitions(Swagger swagger) {
+    /*
+    private Map<String, SecuritySchemeDefinition> getSecurityDefinitions(OpenAPI swagger) {
         
         Map<String, SecuritySchemeDefinition> securityDefinitions = swagger.getSecurityDefinitions();
         if(securityDefinitions==null)securityDefinitions= new HashMap<>();
@@ -261,7 +256,7 @@ public class SwaggerCache {
         return securityDefinitions;
     }
     
-
+*/
     private Map<String,String> toScopesMaps(String line){
         Map<String,String> m = new HashMap<>();
         String scopes[] = line.split(COMMA);
@@ -272,7 +267,7 @@ public class SwaggerCache {
         return m;
     }
     
-    private Info getSwaggerInfo(Swagger swagger){
+    private Info getSwaggerInfo(OpenAPI swagger){
         Info info = swagger.getInfo();
         if(info ==null)info = new Info();
         

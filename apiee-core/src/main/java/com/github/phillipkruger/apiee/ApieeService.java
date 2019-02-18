@@ -149,7 +149,7 @@ public class ApieeService {
         // Else, let's see what we discovered with Apiee Auto register.
         Set<Class<?>> applicationClasses = new HashSet<>();
         apieeClasses.forEach((c) -> {
-            applicationClasses.add(c);
+            //applicationClasses.add(c);
         });
         
         return applicationClasses;

@@ -16,21 +16,21 @@
     <description>A library to add generated swagger doc to your Java EE systems</description>
     
     <properties>
-        <swagger.ui.version>2.2.10</swagger.ui.version>
-        <swagger.ui.themes.version>2.1.0</swagger.ui.themes.version>
-        <swagger.version>1.5.21</swagger.version>
+        <swagger.ui.version>3.20.5</swagger.ui.version>
+        <swagger.ui.themes.version>3.0.0</swagger.ui.themes.version>
+        <swagger.version>2.0.6</swagger.version>
     </properties>
     
     <dependencies>
         <!-- Swagger UI -->
         <dependency>
-            <groupId>org.webjars.bower</groupId>
+            <groupId>org.webjars</groupId>
             <artifactId>swagger-ui</artifactId>
             <version>${swagger.ui.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.webjars.bower</groupId>
+            <groupId>org.webjars.npm</groupId>
             <artifactId>swagger-ui-themes</artifactId>
             <version>${swagger.ui.themes.version}</version>
             <scope>runtime</scope>
@@ -38,13 +38,13 @@
         
         <!-- Swagger - For Endpoint documentation -->
         <dependency>
-            <groupId>io.swagger</groupId>
+            <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-jaxrs</artifactId>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-jaxrs2</artifactId>
             <version>${swagger.version}</version>
             
             <exclusions>
