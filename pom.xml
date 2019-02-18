@@ -37,21 +37,18 @@
         <url>https://github.com/phillip-kruger/apiee</url>        
     </scm>
 
+
     <distributionManagement>
-        <site>
-            <id>api.wiki</id>
-            <url>https://github.com/phillip-kruger/apiee/wiki</url>
-        </site>
-        
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
+        <!--  Publish versioned releases here  -->
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>nexus-release</id>
+            <url>${nexus.url.release}</url>
         </repository>
-        
+        <!--  Publish snapshots here  -->
+        <snapshotRepository>
+            <id>nexus-snapshot</id>
+            <url>${nexus.url.snapshot}</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <developers>
@@ -105,18 +102,7 @@
             
             <build>
                 <plugins>
-                    <!-- To release to Maven central -->
-                    <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.8</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                        </configuration>
-                    </plugin>
+
                     <!-- To generate javadoc -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
