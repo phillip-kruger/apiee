@@ -1,7 +1,6 @@
 package com.github.phillipkruger.apiee.example;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -18,7 +17,6 @@ import lombok.extern.java.Log;
 @Path("/example/xml")
 @Produces({MediaType.APPLICATION_XML}) 
 @Consumes({MediaType.APPLICATION_XML})
-@Api(value = "Example XML service")
 @Log
 public class ExampleXmlService {
     
@@ -29,14 +27,14 @@ public class ExampleXmlService {
     private HttpServletRequest request;
     
     @POST
-    @ApiOperation(value = "Post some example content", notes = "This will post some object to the server")
+    @Operation(description = "Post some example content", summary = "This will post some object to the server")
     public Response postExample(SomeObject someObject) {
         log.log(Level.INFO, "POST: {0}", someObject);
         return Response.created(uriInfo.getRequestUri()).build();
     }
     
     @GET
-    @ApiOperation(value = "Retrieve some example content", notes = "This will return some object to the client",response = SomeObject.class)
+    @Operation(description = "Retrieve some example content", summary = "This will return some object to the client")
     public Response getExample(){
         SomeObject object = new SomeObject("apiee example","https://github.com/phillip-kruger/apiee-example");
         log.log(Level.INFO, "GET: {0}", object);
