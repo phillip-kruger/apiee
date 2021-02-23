@@ -10,7 +10,7 @@
 
     <groupId>com.github.phillip-kruger</groupId>
     <artifactId>apiee</artifactId>
-    <version>1.0.9</version>
+    <version>1.0.10-SNAPSHOT</version>
     <packaging>pom</packaging>
     
     <name>apiee</name>
