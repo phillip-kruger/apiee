@@ -5,9 +5,9 @@
     <parent>
         <groupId>com.github.phillip-kruger</groupId>
         <artifactId>javaee-servers-parent</artifactId>
-        <version>javaee-7-v5-SNAPSHOT</version>
+        <version>javaee-7-v4</version>
     </parent>
-    
+
     <groupId>com.github.phillip-kruger</groupId>
     <artifactId>apiee</artifactId>
     <version>1.0.9-SNAPSHOT</version>
