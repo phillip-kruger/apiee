@@ -18,7 +18,7 @@
     <properties>
         <swagger.ui.version>2.2.10</swagger.ui.version>
         <swagger.ui.themes.version>2.1.0</swagger.ui.themes.version>
-        <swagger.version>1.5.21</swagger.version>
+        <swagger.version>1.6.2</swagger.version>
     </properties>
     
     <dependencies>
