@@ -18,7 +18,7 @@
     <properties>
         <swagger.ui.version>3.20.5</swagger.ui.version>
         <swagger.ui.themes.version>3.0.0</swagger.ui.themes.version>
-        <swagger.version>2.0.6</swagger.version>
+        <swagger.version>2.2.19</swagger.version>
     </properties>
     
     <dependencies>
@@ -44,7 +44,7 @@
         </dependency>
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-jaxrs2</artifactId>
+            <artifactId>swagger-jaxrs2-jakarta</artifactId>
             <version>${swagger.version}</version>
             
             <exclusions>
