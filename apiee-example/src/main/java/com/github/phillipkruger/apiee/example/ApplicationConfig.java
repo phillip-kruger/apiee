@@ -1,8 +1,8 @@
 package com.github.phillipkruger.apiee.example;
 
-import javax.ws.rs.ApplicationPath;
+import jakarta.ws.rs.ApplicationPath;
 
-import javax.ws.rs.core.Application;
+import jakarta.ws.rs.core.Application;
 
 /**
  * Enable REST
