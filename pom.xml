@@ -66,9 +66,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         
-        <!-- JEE Platform -->        
-        <jee.version>8.0</jee.version>
-        <lombok.version>1.18.6</lombok.version>
+        <lombok.version>1.18.30</lombok.version>
        
         <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>
@@ -76,9 +74,9 @@
     <dependencies>
         <!-- Jave ee -->
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>${jee.version}</version>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <version>10.0.0</version>
             <scope>provided</scope>
         </dependency>
         <!-- Lombok -->
