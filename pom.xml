@@ -8,7 +8,7 @@
         <artifactId>javaee-servers-parent</artifactId>
         <version>javaee-7-v4</version>
     </parent>
-    
+
     <groupId>com.github.phillip-kruger</groupId>
     <artifactId>apiee</artifactId>
     <version>2.0.0-SNAPSHOT</version>
@@ -120,6 +120,9 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
                         <version>2.10.4</version>
+                        <configuration>
+                            <source>8</source>
+                        </configuration>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
