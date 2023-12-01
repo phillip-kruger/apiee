@@ -2,6 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     
+    <!-- TODO: Get rid of this below, move the profiles into the project -->
     <parent>
         <groupId>com.github.phillip-kruger</groupId>
         <artifactId>javaee-servers-parent</artifactId>
@@ -10,7 +11,7 @@
 
     <groupId>com.github.phillip-kruger</groupId>
     <artifactId>apiee</artifactId>
-    <version>1.0.10-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     
     <name>apiee</name>
@@ -37,21 +38,18 @@
         <url>https://github.com/phillip-kruger/apiee</url>        
     </scm>
 
+
     <distributionManagement>
-        <site>
-            <id>api.wiki</id>
-            <url>https://github.com/phillip-kruger/apiee/wiki</url>
-        </site>
-        
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
+        <!--  Publish versioned releases here  -->
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>nexus-release</id>
+            <url>${nexus.url.release}</url>
         </repository>
-        
+        <!--  Publish snapshots here  -->
+        <snapshotRepository>
+            <id>nexus-snapshot</id>
+            <url>${nexus.url.snapshot}</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <developers>
@@ -68,9 +66,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         
-        <!-- JEE Platform -->        
-        <jee.version>7.0</jee.version>
-        <lombok.version>1.18.2</lombok.version>
+        <lombok.version>1.18.30</lombok.version>
        
         <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>
@@ -78,9 +74,9 @@
     <dependencies>
         <!-- Jave ee -->
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>${jee.version}</version>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <version>10.0.0</version>
             <scope>provided</scope>
         </dependency>
         <!-- Lombok -->
@@ -105,18 +101,7 @@
             
             <build>
                 <plugins>
-                    <!-- To release to Maven central -->
-                    <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.8</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                        </configuration>
-                    </plugin>
+
                     <!-- To generate javadoc -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>

@@ -1,43 +1,35 @@
 package com.github.phillipkruger.apiee.example;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.ResponseHeader;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.util.Scanner;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.Encoded;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 import lombok.extern.java.Log;
 
 @Path("/example/json")
 @Produces({MediaType.APPLICATION_JSON}) 
 @Consumes({MediaType.APPLICATION_JSON})
-@Api(value = "Example JSON service")
 @Log
 public class ExampleJsonService {
     
@@ -48,10 +40,10 @@ public class ExampleJsonService {
     private HttpServletRequest request;
     
     @POST
-    @ApiOperation(value = "Post some example content", notes = "This will post some json to the server")
+    @Operation(description = "Post some example content", summary = "This will post some json to the server")
     @ApiResponses({
-        @ApiResponse(code = HttpURLConnection.HTTP_CREATED, message = "Successfully done something"),
-        @ApiResponse(code = HttpURLConnection.HTTP_PRECON_FAILED, message = "Input validation failed, see reason header",responseHeaders = @ResponseHeader(name = "reason",response = String.class))
+        @ApiResponse(responseCode = "" + HttpURLConnection.HTTP_CREATED, description = "Successfully done something"),
+        @ApiResponse(responseCode = "" + HttpURLConnection.HTTP_PRECON_FAILED, description = "Input validation failed, see reason header",headers = @Header(name = "reason"))
     })
     public Response postExample(JsonObject jsonObject) {
         log.log(Level.INFO, "POST: {0}", jsonObject);
@@ -59,7 +51,7 @@ public class ExampleJsonService {
     }
     
     @GET
-    @ApiOperation(value = "Retrieve some example content", notes = "This will return some json to the client",response = JsonObject.class)
+    @Operation(description = "Retrieve some example content", summary = "This will return some json to the client")
     public Response getExample(){
         JsonObject jsonObject = Json.createObjectBuilder().add("name", "apiee example").add("url", "https://github.com/phillip-kruger/apiee-example").build();
         log.log(Level.INFO, "GET: {0}", jsonObject);
@@ -67,7 +59,7 @@ public class ExampleJsonService {
     }
     
     @DELETE
-    @ApiOperation(value = "Delete some example content", notes = "This will delete some data")
+    @Operation(description = "Delete some example content", summary = "This will delete some data")
     public void deleteExample(){
         log.log(Level.INFO, "DELETE");
     }
@@ -75,11 +67,11 @@ public class ExampleJsonService {
     
     @GET
     @Path("/header")
-    @ApiOperation(value = "Pass header value in", notes = "Some header info")
-    @ApiImplicitParams({ @ApiImplicitParam(name = "authorization",
-                                         value = "Some info.",
-                                         dataType = "string",
-                                         paramType = "header") })
+    @Operation(description = "Pass header value in", summary = "Some header info")
+//    @ApiImplicitParams({ @ApiImplicitParam(name = "authorization",
+//                                         value = "Some info.",
+//                                         dataType = "string",
+//                                         paramType = "header") })
     public String headerExample(){
         String header = request.getHeader("authorization");
         return "You have passes [" + header + "] in the authorization header";
@@ -87,7 +79,7 @@ public class ExampleJsonService {
     
     @POST
     @Path("/upload")
-    @ApiOperation(value = "Upload some json file and print to string", notes = "Upload example")
+    @Operation(description = "Upload some json file and print to string", summary = "Upload example")
     public Response uploadJson(@FormParam("file") File uploadedFile){
         
         try(FileInputStream fis = new FileInputStream(uploadedFile)){

@@ -1,10 +1,9 @@
 package com.github.phillipkruger.apiee.example;
 
-import io.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,8 @@ import lombok.NoArgsConstructor;
 @XmlAccessorType(XmlAccessType.FIELD)
 @AllArgsConstructor @NoArgsConstructor
 public class SomeObject {
-    @ApiModelProperty(value = "The Name !!", dataType = "string")
+    // @ApiModelProperty(value = "The Name !!", dataType = "string") TODO: Map this to new v3
+    
     @XmlAttribute
     private String name;
     @XmlAttribute

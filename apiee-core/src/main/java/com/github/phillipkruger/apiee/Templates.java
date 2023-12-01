@@ -12,12 +12,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 import javax.imageio.ImageIO;
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.UriInfo;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.core.UriInfo;
 import lombok.Getter;
 import lombok.extern.java.Log;
 
@@ -82,38 +82,6 @@ public class Templates {
         // System properties.
         html = html.replaceAll(VAR_CONTEXT_ROOT, getOriginalContextPath(uriInfo,request));
         html = html.replaceAll(VAR_CURRENT_YEAR, String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
-        // Whitelabel properties.
-        if(whiteLabel.hasProperties()){
-            // First do all unknown properties.
-            Map<String, String> properties = whiteLabel.getProperties();
-            Set<Map.Entry<String, String>> pes = properties.entrySet();
-            for(Map.Entry<String,String> p:pes){
-                String key = PERSENTAGE + p.getKey() + PERSENTAGE;
-                html = html.replaceAll(key, p.getValue());
-            }
-
-        } else {
-            log.warning("No white label properties, returning vanilla template");
-        }
-        // Then properties with defaults.
-        html = html.replaceAll(VAR_COPYRIGHT_BY, VAL_COPYRIGHT_BY);
-        html = html.replaceAll(VAR_TITLE, VAL_TITLE);
-        html = html.replaceAll(VAR_JSON_BUTTON, VAL_JSON_BUTTON);
-        html = html.replaceAll(VAR_YAML_BUTTON, VAL_YAML_BUTTON);
-        html = html.replaceAll(VAR_SWAGGER_THEME, VAL_SWAGGER_THEME);
-        html = html.replaceAll(VAR_DOC_EXPANSION, VAL_DOC_EXPANSION);
-        html = html.replaceAll(VAR_JSON_EDITOR, VAL_JSON_EDITOR);
-        html = html.replaceAll(VAR_DEFAULT_MODEL_RENDERING, VAL_DEFAULT_MODEL_RENDERING);
-        html = html.replaceAll(VAR_SHOW_REQUEST_HEADERS, VAL_SHOW_REQUEST_HEADERS);
-        html = html.replaceAll(VAR_SHOW_OPERATION_IDS, VAL_SHOW_OPERATION_IDS);
-        html = html.replaceAll(VAR_VALIDATOR_URL,VAL_VALIDATOR_URL);
-        html = html.replaceAll(VAR_SUPPORTED_SUBMIT_METHODS,VAL_SUPPORTED_SUBMIT_METHODS);
-        html = html.replaceAll(VAR_OAUTH_CLIENT_ID,VAL_OAUTH_CLIENT_ID);
-        html = html.replaceAll(VAR_OAUTH_CLIENT_SECRET,VAL_OAUTH_CLIENT_SECRET);
-        html = html.replaceAll(VAR_OAUTH_REALM,VAL_OAUTH_REALM);
-        html = html.replaceAll(VAR_OAUTH_APP_NAME,VAL_OAUTH_APP_NAME);
-        html = html.replaceAll(VAR_OAUTH_SCOPE_SEPARATOR,VAL_OAUTH_SCOPE_SEPARATOR);
-        html = html.replaceAll(VAR_SERVER_INFO, request.getServletContext().getServerInfo());
         return html;
     }
     
