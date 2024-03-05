@@ -82,7 +82,7 @@
     </dependencies>
     
     <profiles>
-        <!-- Activate using the release property: mvn clean install -Prelease -->
+         <!--Activate using the release property: mvn clean deploy -Prelease--> 
         <profile>
             <id>release</id>
             <activation>
@@ -93,7 +93,18 @@
             
             <build>
                 <plugins>
-
+                    <!-- To release to Maven central -->
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.13</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
                     <!-- To generate javadoc -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
