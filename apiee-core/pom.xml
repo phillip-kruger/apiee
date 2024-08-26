@@ -16,7 +16,7 @@
     <description>A library to add generated swagger doc to your Java EE systems</description>
     
     <properties>
-        <swagger.ui.version>3.20.5</swagger.ui.version>
+        <swagger.ui.version>3.23.11</swagger.ui.version>
         <swagger.ui.themes.version>3.0.0</swagger.ui.themes.version>
         <swagger.version>2.2.19</swagger.version>
     </properties>
